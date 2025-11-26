@@ -11,49 +11,48 @@ body {
     background-color: #fff;
 }
 
+
 /* Navbar Styling */
 .navbar {
     padding: 15px 0;
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    background-color: #6e3737 !important; /* Merah */
 }
 .navbar-brand {
     font-weight: 800;
     font-size: 24px;
-    color: #333;
+    color: #c01e1e;
     letter-spacing: -0.5px;
 }
 .navbar-brand span {
-    color: var(--primary-color);
+    color: #fff;
+}
+.navbar-brand img {
+    height: 50px;
+     /* Membuat logo putih jika perlu */
 }
 .nav-link {
     font-weight: 600;
     font-size: 13px;
-    color: #555;
+    color: #fff !important;
     margin-right: 15px;
 }
 .nav-link:hover {
-    color: var(--primary-color);
+    color: #ff9696 !important;
 }
 .btn-list-venue {
-    border: 1px solid #ddd;
-    color: #555;
+    border: 1px solid #fff;
+    color: #fff;
     font-weight: 700;
     font-size: 11px;
     padding: 8px 16px;
     text-transform: uppercase;
+    background-color: transparent;
 }
 .btn-list-venue:hover {
-    border-color: var(--primary-color);
-    color: var(--primary-color);
-    background: #fff5f0;
-}
-.cart-badge {
-    font-size: 9px;
-    position: absolute;
-    top: -5px;
-    right: -8px;
-    padding: 3px 6px;
-    display: none;
+    border-color: #fff;
+    color: #dc2626;
+    background: #fff;
 }
 
 /* Search Bar Section */
@@ -183,7 +182,7 @@ body {
 
 /* Footer */
 footer {
-    background-color: #fff;
+    background-color: #fafafa;
     padding: 50px 0;
     border-top: 1px solid #eee;
     font-size: 13px;
@@ -586,7 +585,6 @@ footer {
     height: auto;
 }
 
-/* Tambahkan di style.css */
 
 body {
     overflow-x: hidden;
@@ -612,3 +610,565 @@ img {
     max-width: 100%;
     height: auto;
 }
+
+/* Styling untuk fitur cek jadwal */
+.search-section {
+    background-color: var(--dark-bg);
+    padding: 30px 0;
+}
+
+.available-slots-info {
+    font-size: 12px;
+    border-left: 3px solid var(--primary-color);
+    padding-left: 8px;
+    margin: 10px 0;
+}
+
+.available-times-container {
+    margin-top: 8px;
+}
+
+.available-times-container .badge {
+    font-weight: 600;
+}
+
+/* Animasi */
+@keyframes fadeIn {
+    from { 
+        opacity: 0; 
+        transform: translateY(20px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
+/* Search Bar Section */
+.search-section {
+    background-color: var(--dark-bg);
+    padding: 30px 0;
+}
+
+.search-section .container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.search-section .row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+}
+
+.form-control-lg {
+    font-size: 14px;
+    border-radius: 4px;
+    padding: 12px 15px;
+    height: auto;
+}
+
+.btn-check {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 700;
+    border: none;
+    border-radius: 4px;
+    padding: 12px 20px;
+    height: auto;
+    min-height: 50px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-check:hover {
+    background-color: #b91c1c;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .search-section {
+        padding: 20px 0;
+    }
+    
+    .search-section .row {
+        margin: 0 -10px;
+    }
+    
+    .search-section .col-12 {
+        padding: 0 10px;
+        margin-bottom: 10px;
+    }
+    
+    .form-control-lg {
+        padding: 10px 12px;
+    }
+    
+    .btn-check {
+        min-height: 45px;
+        font-size: 13px;
+    }
+}
+
+/* Remove debug borders */
+.search-section .container {
+    border: none !important;
+}
+
+.search-section .row {
+    border: none !important;
+}
+
+.btn-check {
+    border: none !important;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.venue-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.venue-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 10px rgb(255, 8, 8);
+}
+
+.available-slots-info {
+    background: #f8f9fa;
+    padding: 8px;
+    border-radius: 6px;
+    border-left: 3px solid #28a745;
+}
+
+/* === RESPONSIVE DESIGN === */
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 20px;
+    }
+    
+    .nav-link {
+        font-size: 12px;
+        margin-right: 10px;
+    }
+    
+    .hero-banner .carousel-item img {
+        height: 250px;
+    }
+    
+    .section-title {
+        font-size: 20px;
+        margin-top: 30px;
+    }
+    
+    .venue-card {
+        margin-bottom: 15px;
+    }
+    
+    .venue-name {
+        font-size: 14px;
+    }
+    
+    /* Search Section Mobile */
+    .search-section {
+        padding: 20px 0;
+    }
+    
+    .search-section .form-control-lg {
+        font-size: 13px;
+        padding: 10px 12px;
+    }
+    
+    .search-section .btn {
+        font-size: 13px;
+        padding: 10px 15px;
+    }
+    
+    /* Schedule Grid Mobile */
+    .schedule-scroll {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        gap: 8px;
+    }
+    
+    .day-column {
+        min-width: 130px;
+    }
+    
+    .time-slot {
+        height: 85px;
+        padding: 6px;
+    }
+    
+    .slot-time {
+        font-size: 10px;
+    }
+    
+    .slot-price {
+        font-size: 9px;
+    }
+    
+    /* Footer Mobile */
+    footer {
+        padding: 30px 0;
+        color: #b91c1c;
+    }
+    
+    .footer-links {
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    
+    .navbar-collapse {
+        text-align: center;
+    }
+    
+    .nav-item {
+        margin: 5px 0;
+    }
+    
+    .btn-list-venue {
+        margin: 10px 0;
+    }
+    
+    /* Search Section Small Mobile */
+    .search-section .row {
+        margin: 0 -5px;
+    }
+    
+    .search-section .col-12 {
+        padding: 0 5px;
+        margin-bottom: 8px;
+    }
+    
+    /* Venue Cards Small Mobile */
+    .venue-card img {
+        height: 150px;
+    }
+    
+    .card-body {
+        padding: 10px;
+    }
+    
+    /* Schedule Small Mobile */
+    .schedule-scroll {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+    
+    .day-column {
+        min-width: 120px;
+    }
+    
+    .time-slot {
+        height: 80px;
+    }
+    
+    .slot-top {
+        top: 4px;
+        left: 6px;
+        right: 6px;
+    }
+    
+    .slot-date-small {
+        font-size: 8px;
+    }
+    
+    .whatsapp-float {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+        bottom: 20px;
+        right: 20px;
+    }
+}
+
+/* === DROPDOWN STYLING === */
+.search-section .dropdown-toggle {
+    background: white;
+    border: 1px solid #ced4da;
+    color: #495057;
+    text-align: left;
+    position: relative;
+}
+
+.search-section .dropdown-toggle::after {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.search-section .dropdown-menu {
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.search-section .dropdown-item {
+    font-size: 14px;
+    padding: 8px 15px;
+}
+
+.search-section .dropdown-item:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* Other City Input */
+#otherCityInput {
+    transition: all 0.3s ease;
+}
+
+/* Mobile First Approach */
+.container {
+    max-width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Ensure images are responsive */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Improve button touch targets on mobile */
+.btn {
+    min-height: 44px; /* Minimum touch target size */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Form controls mobile optimization */
+.form-control, .form-select {
+    min-height: 44px;
+}
+
+/* Modal mobile optimization */
+.modal-dialog {
+    margin: 20px auto;
+}
+
+@media (max-width: 576px) {
+    .modal-dialog {
+        margin: 10px;
+    }
+}
+
+/* Booking page mobile optimization */
+@media (max-width: 768px) {
+    .venue-detail-title {
+        font-size: 22px;
+    }
+    
+    .custom-tabs {
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+    
+    .tab-item {
+        font-size: 12px;
+        padding-bottom: 8px;
+    }
+    
+    .checkout-bar .container {
+        padding: 10px 15px;
+    }
+    
+    .checkout-bar .btn {
+        font-size: 12px;
+        padding: 8px 15px;
+    }
+}
+
+/* Profile page mobile optimization */
+@media (max-width: 768px) {
+    .sport-item {
+        padding: 8px;
+    }
+    
+    .sport-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+    }
+    
+    .sport-label {
+        font-size: 10px;
+    }
+}
+
+/* My Booking mobile optimization */
+@media (max-width: 768px) {
+    .booking-history-card .row {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .booking-history-card .col-md-2 {
+        margin-bottom: 15px;
+    }
+    
+    .booking-history-card .col-md-4 {
+        margin-top: 15px;
+    }
+}
+
+/* === DROPDOWN STYLING === */
+.search-section .dropdown-toggle {
+    background: white;
+    border: 1px solid #ced4da;
+    color: #495057;
+    text-align: left;
+    position: relative;
+    padding-right: 40px; /* Space for dropdown arrow */
+}
+
+.search-section .dropdown-toggle::after {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-top: 0.4em solid;
+    border-right: 0.4em solid transparent;
+    border-left: 0.4em solid transparent;
+}
+
+.search-section .dropdown-menu {
+    width: 100%;
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #dee2e6;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.search-section .dropdown-item {
+    font-size: 14px;
+    padding: 10px 15px;
+    border-bottom: 1px solid #f8f9fa;
+    transition: all 0.2s ease;
+}
+
+.search-section .dropdown-item:hover {
+    background-color: var(--primary-color);
+    color: white;
+    transform: translateX(5px);
+}
+
+.search-section .dropdown-item:last-child {
+    border-bottom: none;
+}
+
+.search-section .dropdown-divider {
+    margin: 5px 0;
+}
+
+/* Highlight untuk pilihan "Other" */
+.search-section .dropdown-item:last-child {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.search-section .dropdown-item:last-child:hover {
+    background-color: #ff6b35;
+    color: white;
+}
+
+/* Responsive dropdown */
+@media (max-width: 768px) {
+    .search-section .dropdown-menu {
+        max-height: 250px;
+    }
+    
+    .search-section .dropdown-item {
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+}
+
+/* UNTUK TAMPILAN GOOGLE MAPS */
+/* === GOOGLE MAPS STYLING === */
+#google-maps-container {
+    position: relative;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.maps-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.maps-placeholder {
+    text-align: center;
+    color: #6c757d;
+}
+
+.maps-placeholder i {
+    font-size: 48px;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+
+/* Responsive Maps */
+@media (max-width: 768px) {
+    #google-maps-container {
+        height: 250px;
+    }
+}
+
+@media (max-width: 576px) {
+    #google-maps-container {
+        height: 200px;
+    }
+}
+
+/* Maps Button Styling */
+.btn-maps {
+    background: #4285f4;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-maps:hover {
+    background: #3367d6;
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(66, 133, 244, 0.3);
+}
+
+/* Styling Cart */
+.cart-item-row {
+    transition: background-color 0.2s;
+}
+.cart-item-row:hover {
+    background-color: #f9f9f9;
+}
+#cartModal .modal-body {
+    background-color: #fff;
+}
+

@@ -16,7 +16,7 @@
     <nav class="navbar navbar-expand-lg bg-white sticky-top">
         <div class="container">
             <a class="navbar-brand" href="javascript:void(0)" onclick="goHome()">
-                <span><i class="fa-brands fa-grunt"></i> Let's Booking</span>
+                <span> <img src="imam bau.png"> Let's Booking</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -30,11 +30,11 @@
                         <a class="btn btn-sm btn-list-venue me-3" href="javascript:void(0)" onclick="showListYourVenue()">LIST YOUR VENUE</a>
                     </li>
                     <li class="nav-item position-relative">
-                        <a class="nav-link" href="#">
-                            <i class="fas fa-shopping-cart"></i>
-                            <span id="nav-cart-badge" class="badge rounded-pill bg-danger cart-badge">0</span>
-                        </a>
-                    </li>
+    <a class="nav-link" href="javascript:void(0)" onclick="showCartModal()">
+        <i class="fas fa-shopping-cart"></i>
+        <span id="nav-cart-badge" class="badge rounded-pill bg-danger cart-badge">0</span>
+    </a>
+</li>
                     <li class="nav-item dropdown" id="nav-auth-area">
                         <a class="nav-link" href="javascript:void(0)" id="btnShowLogin" onclick="showLoginModal()">LOGIN</a>
                     </li>
@@ -44,46 +44,106 @@
     </nav>
 
     <div id="view-home">
-        <section class="search-section">
-            <div class="container">
-                <div class="row g-2">
-                    <div class="col-md-4">
-                        <input type="text" class="form-control form-control-lg" placeholder="Pilih atau cari kota">
-                    </div>
-                    <div class="col-md-3">
-                        <select class="form-select form-control-lg">
-                            <option selected>Pilih atau cari olahraga</option>
-                            <option>Sepak Bola</option>
-                            <option>Badminton</option>
-                            <option>Futsal</option>
-                            <option>Tenis</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <input type="date" class="form-control form-control-lg" value="2025-11-23">
-                    </div>
-                    <div class="col-md-2">
-                        <button class="btn btn-check">CEK JADWAL</button>
-                    </div>
+      
+<!-- SECTION SEARCH  -->
+<!-- SECTION SEARCH  -->
+<section class="search-section">
+    <div class="container">
+        <div class="row g-2 align-items-center">
+            <!-- Kota Dropdown -->
+            <div class="col-12 col-md-3">
+                <div class="dropdown">
+                    <button class="form-control form-control-lg text-start dropdown-toggle" type="button" id="cityDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        Pilih kota
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="cityDropdown" id="cityDropdownMenu">
+                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="selectCity('Jakarta')">Jakarta</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="selectCity('Tangerang')">Tangerang</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="selectCity('Bekasi')">Bekasi</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="selectCity('Depok')">Depok</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="selectCity('Bandung')">Bandung</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="selectCity('Bali')">Bali</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="selectCity('Bogor')">Bogor</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="selectCity('Surabaya')">Surabaya</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="selectCity('Semarang')">Semarang</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="selectCity('Medan')">Medan</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="showOtherCityInput()">Other</a></li>
+                    </ul>
+                </div>
+                <!-- Input untuk kota lainnya (hidden by default) -->
+                <input type="text" class="form-control form-control-lg mt-2 d-none" id="otherCityInput" placeholder="Masukkan nama kota">
+            </div>
+
+            <!-- Olahraga Dropdown -->
+            <div class="col-12 col-md-2">
+                <div class="dropdown">
+                    <button class="form-control form-control-lg text-start dropdown-toggle" type="button" id="sportDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        Pilih olahraga
+                    </button>
+                   <ul class="dropdown-menu" aria-labelledby="cityDropdown" id="cityDropdownMenu">
+    <li><a class="dropdown-item" href="javascript:void(0)" onclick="selectSport('Sepak Bola')">Sepak Bola</a></li>
+    <li><a class="dropdown-item" href="javascript:void(0)" onclick="selectSport('Futsal')">Futsal</a></li>
+    <li><a class="dropdown-item" href="javascript:void(0)" onclick="selectSport('Badminton')">Badminton</a></li>
+    <li><a class="dropdown-item" href="javascript:void(0)" onclick="selectSport('Tenis')">Tenis</a></li>
+    <li><a class="dropdown-item" href="javascript:void(0)" onclick="selectSport('Padel')">Padel</a></li>
+    <li><a class="dropdown-item" href="javascript:void(0)" onclick="selectSport('Basket')">Basket</a></li>
+    <li><a class="dropdown-item" href="javascript:void(0)" onclick="selectSport('Voli')">Voli</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="javascript:void(0)" onclick="showOtherCityInput()">Other</a></li>
+</ul>
                 </div>
             </div>
-        </section>
+
+            <!-- Tanggal -->
+            <div class="col-12 col-md-2">
+                <input type="date" class="form-control form-control-lg" id="search-date" required>
+            </div>
+
+            <!-- Tombol Cek Jadwal -->
+            <div class="col-12 col-md-3">
+                <button class="btn btn-danger btn-lg w-100" onclick="checkSchedule();">
+                    <i class="fas fa-search me-2"></i>CEK JADWAL
+                </button>
+            </div>
+        </div>
+
+        <div class="row mt-2">
+            <div class="col-12">
+                <small class="text-light opacity-75">
+                    <i class="fas fa-info-circle me-1"></i>
+                    Pilih tanggal untuk melihat venue dengan jadwal tersedia
+                </small>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Hasil Pencarian Jadwal -->
+<section id="available-venues" class="py-5 bg-light" style="display: none;">
+    <div class="container">
+        <h2 class="section-title text-center mb-5">Ditemukan <span>0 Venue</span> Tersedia</h2>
+        <div id="available-venues-container" class="row">
+            <!-- Hasil pencarian akan ditampilkan di sini -->
+        </div>
+    </div>
+</section>
 
         <div class="container">
             <div class="row hero-banner">
                 <div class="col-12">
                     <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <img src="https://images.unsplash.com/photo-1529900748604-07564a03e7a6?w=1200&q=80" class="d-block w-100" alt="Banner 1">
+                        <div class="carousel-item active">
+                                <img src="./Image/ASATU CIKINI.jpg" class="d-block w-100" alt="Banner 1">
                                 <div class="carousel-caption">
                                     <h2 class="fw-bold">ASATU ARENA CIKINI</h2>
                                     <p>Lapangan Mini Soccer Outdoor dengan rumput sintetis standar FIFA.</p>
-                                    <button class="btn btn-warning fw-bold" onclick="openBooking('asatu')">BOOKING NOW</button>
+                                    <button class="btn btn-warning fw-bold" onclick="openBooking('asatu')" event.stopPropagation()>BOOKING NOW</button>
                                 </div>
                             </div>
                             <div class="carousel-item">
-                                <img src="https://images.unsplash.com/photo-1626248990622-76d912f23028?w=1200&q=80" class="d-block w-100" alt="Banner 2">
+                                <img src="https://asset.ayo.co.id/image/venue/165589181882791.image_cropper_97735C2B-26B5-421C-9E4A-7128A7112E3A-37880-000006F883353C2A_large.jpg" class="d-block w-100" alt="Banner 2">
                             </div>
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
@@ -99,13 +159,12 @@
             <div class="row">
                 <div class="col-12 d-flex justify-content-between align-items-end">
                     <h3 class="section-title">Promo <span>Venue</span></h3>
-                    <a href="#" class="text-decoration-none text-secondary mb-3">Lihat Lebih Banyak</a>
                 </div>
                 
                 <div class="col-md-4">
                     <div class="card venue-card" onclick="openBooking('dna')">
                         <span class="badge-promo">PROMO</span>
-                        <img src="https://images.unsplash.com/photo-1575361204480-aadea25e6e68?w=500&q=60" class="card-img-top" alt="Field">
+                        <img src="./Image/lapangan mini soccer dna cinere.jpg" class="card-img-top" alt="Field">
                         <div class="card-body">
                             <div class="venue-name">DNA Arena Cinere</div>
                             <div class="venue-loc">Depok - 2 Lapangan</div>
@@ -116,7 +175,7 @@
                 <div class="col-md-4">
                     <div class="card venue-card" onclick="openBooking('iti')">
                         <span class="badge-promo">PROMO</span>
-                        <img src="https://images.unsplash.com/photo-1551958219-acbc608c6377?w=500&q=60" class="card-img-top" alt="Field">
+                        <img src="./Image/lapangan mini soccer ITI.webp" class="card-img-top" alt="Field">
                         <div class="card-body">
                             <div class="venue-name">ITI Stadion Arena</div>
                             <div class="venue-loc">Tangerang Selatan - 1 Lapangan</div>
@@ -127,9 +186,9 @@
                 <div class="col-md-4">
                     <div class="card venue-card" onclick="openBooking('bintaro')">
                         <span class="badge-promo">PROMO</span>
-                        <img src="https://images.unsplash.com/photo-1522778119026-d647f0565c6a?w=500&q=60" class="card-img-top" alt="Field">
+                        <img src="./Image/lapangan mini soccer chief.jpg" class="card-img-top" alt="Field">
                         <div class="card-body">
-                            <div class="venue-name">Bintaro Soccer Field</div>
+                            <div class="venue-name">Bintaro Soccer Chief</div>
                             <div class="venue-loc">Jakarta Selatan - 1 Lapangan</div>
                             <div class="venue-price">Periode 01 Apr - 31 Dec</div>
                         </div>
@@ -140,12 +199,12 @@
             <div class="row">
                 <div class="col-12 d-flex justify-content-between align-items-end">
                     <h3 class="section-title">Rekomendasi <span>Venue</span></h3>
-                    <a href="#" class="text-decoration-none text-secondary mb-3">Selengkapnya</a>
+                    <a href="javascript:void(0)" onclick="showVenueList()" class="text-decoration-none text-secondary mb-3">Selengkapnya</a>
                 </div>
 
                 <div class="col-md-3 col-sm-6">
                     <div class="card venue-card" onclick="openBooking('asatu')">
-                        <img src="https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=500&q=60" class="card-img-top" alt="Venue">
+                        <img src="./Image/ASATU CIKINI.jpg" class="card-img-top" alt="Venue">
                         <div class="card-body">
                             <div class="venue-name">ASATU ARENA CIKINI</div>
                             <div class="venue-loc">Jakarta Pusat - 1 Lapangan</div>
@@ -155,9 +214,9 @@
                 </div>
                 <div class="col-md-3 col-sm-6">
                     <div class="card venue-card" onclick="openBooking('permata')">
-                        <img src="https://images.unsplash.com/photo-1624880357913-a8539238245b?w=500&q=60" class="card-img-top" alt="Venue">
+                        <img src="./Image/lapangan elite mini soccer.jpg" class="card-img-top" alt="Venue">
                         <div class="card-body">
-                            <div class="venue-name">ALAPANGAN Permata</div>
+                            <div class="venue-name">LAPANGAN 45 Permata HIjau</div>
                             <div class="venue-loc">Jakarta Selatan - 1 Lapangan</div>
                             <div class="venue-price">Harga mulai Rp 1.080.000</div>
                         </div>
@@ -165,7 +224,7 @@
                 </div>
                 <div class="col-md-3 col-sm-6">
                     <div class="card venue-card" onclick="openBooking('tarena')">
-                        <img src="https://images.unsplash.com/photo-1562924601-b2bb895eb075?w=500&q=60" class="card-img-top" alt="Venue">
+                        <img src="./Image/Lapangan Futsal.jpg" class="card-img-top" alt="Venue">
                         <div class="card-body">
                             <div class="venue-name">T Arena</div>
                             <div class="venue-loc">Jakarta Selatan - 1 Lapangan</div>
@@ -175,7 +234,7 @@
                 </div>
                 <div class="col-md-3 col-sm-6">
                     <div class="card venue-card" onclick="openBooking('koci')">
-                        <img src="https://images.unsplash.com/photo-1505250469679-253c7377f1d3?w=500&q=60" class="card-img-top" alt="Venue">
+                        <img src="./Image/Lapangan Futsal Senayan.webp" class="card-img-top" alt="Venue">
                         <div class="card-body">
                             <div class="venue-name">KOCI Soccer Field</div>
                             <div class="venue-loc">Depok - 4 Lapangan</div>
@@ -183,87 +242,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3 col-sm-6">
-                    <div class="card venue-card" onclick="openBooking('bai')">
-                        <img src="https://images.unsplash.com/photo-1577223625816-7546f13df25d?w=500&q=60" class="card-img-top" alt="Venue">
-                        <div class="card-body">
-                            <div class="venue-name">BAI Soccer Field</div>
-                            <div class="venue-loc">Bandung - 3 Lapangan</div>
-                            <div class="venue-price">Harga mulai Rp 800.000</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6">
-                    <div class="card venue-card" onclick="openBooking('bandung')">
-                        <img src="https://images.unsplash.com/photo-1558365849-6a8d75d84fc4?w=500&q=60" class="card-img-top" alt="Venue">
-                        <div class="card-body">
-                            <div class="venue-name">Bandung Elektrik</div>
-                            <div class="venue-loc">Bandung - 2 Lapangan</div>
-                            <div class="venue-price">Harga mulai Rp 125.000</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6">
-                    <div class="card venue-card" onclick="openBooking('ganesha')">
-                        <img src="https://images.unsplash.com/photo-1595435934249-fddf8f7d2e60?w=500&q=60" class="card-img-top" alt="Venue">
-                        <div class="card-body">
-                            <div class="venue-name">GANESHA TENNIS</div>
-                            <div class="venue-loc">Jakarta Timur - 5 Lapangan</div>
-                            <div class="venue-price">Harga mulai Rp 100.000</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6">
-                    <div class="card venue-card" onclick="openBooking('padel')">
-                        <img src="https://images.unsplash.com/photo-1519923834699-ef0b7cde4712?w=500&q=60" class="card-img-top" alt="Venue">
-                        <div class="card-body">
-                            <div class="venue-name">Padel Cafe</div>
-                            <div class="venue-loc">Jakarta Selatan - 2 Lapangan</div>
-                            <div class="venue-price">Harga mulai Rp 450.000</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6">
-                    <div class="card venue-card" onclick="openBooking('sportiva')">
-                        <img src="https://images.unsplash.com/photo-1535131749006-b7f58c99034b?w=500&q=60" class="card-img-top" alt="Venue">
-                        <div class="card-body">
-                            <div class="venue-name">Sportiva Arena</div>
-                            <div class="venue-loc">Jakarta Barat - 3 Lapangan</div>
-                            <div class="venue-price">Harga mulai Rp 750.000</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6">
-                    <div class="card venue-card" onclick="openBooking('elite')">
-                        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500&q=60" class="card-img-top" alt="Venue">
-                        <div class="card-body">
-                            <div class="venue-name">Elite Futsal Center</div>
-                            <div class="venue-loc">Tangerang - 4 Lapangan</div>
-                            <div class="venue-price">Harga mulai Rp 300.000</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6">
-                    <div class="card venue-card" onclick="openBooking('badmintonplus')">
-                        <img src="https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?w=500&q=60" class="card-img-top" alt="Venue">
-                        <div class="card-body">
-                            <div class="venue-name">Badminton Plus</div>
-                            <div class="venue-loc">Bekasi - 8 Lapangan</div>
-                            <div class="venue-price">Harga mulai Rp 80.000</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6">
-                    <div class="card venue-card" onclick="openBooking('tenniscity')">
-                        <img src="https://images.unsplash.com/photo-1595435934249-fddf8f7d2e60?w=500&q=60" class="card-img-top" alt="Venue">
-                        <div class="card-body">
-                            <div class="venue-name">Tennis City</div>
-                            <div class="venue-loc">Jakarta Utara - 6 Lapangan</div>
-                            <div class="venue-price">Harga mulai Rp 120.000</div>
-                        </div>
-                    </div>
-                </div>
+               
+               
+                
+                
             </div>
+            
         </div>
 
       <section class="b2b-section">
@@ -286,11 +270,12 @@
         </div>
     </section>
 
+<!---FOOTER -->
         <footer>
             <div class="container">
                 <div class="row">
                     <div class="col-lg-3 col-md-6 mb-4">
-                        <a class="navbar-brand mb-4 d-block" href="#"><span><i class="fa-brands fa-grunt"></i> Let's Booking</span></a>
+                        <a class="navbar-brand mb-4 d-block" href="#"><img src="imam bau.png">Let's Booking</span></a>
                         <p>PT Sehat Sentosa</p>
                         <small>Kuningan, Jakarta Selatan, DKI Jakarta 12950</small>
                     </div>
@@ -341,6 +326,7 @@
         </footer>
     </div>
 
+    <!--BOOKING VIEW-->
     <div id="view-booking" class="d-none">
         <div class="venue-header-container">
             <img id="detail-img" src="" class="venue-header-img" alt="Header">
@@ -453,6 +439,30 @@
                         </div>
                     </div>
                 </div>
+<!-- Google Maps Section -->
+<div class="mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h6 class="fw-bold mb-0">Lokasi di Google Maps</h6>
+        <button class="btn btn-sm btn-outline-primary" onclick="openGoogleMaps()">
+            <i class="fas fa-external-link-alt me-1"></i>Buka di Google Maps
+        </button>
+    </div>
+    
+    <!-- Google Maps Embed -->
+    <div id="google-maps-embed" style="height: 300px; border-radius: 8px; overflow: hidden; background: #f8f9fa;">
+        <div class="maps-placeholder h-100 d-flex align-items-center justify-content-center">
+            <div class="text-center text-muted">
+                <i class="fas fa-map-marked-alt fa-2x mb-2"></i>
+                <p>Peta akan dimuat...</p>
+            </div>
+        </div>
+    </div>
+    
+    <small class="text-muted mt-2 d-block">
+        <i class="fas fa-info-circle me-1"></i>
+        Gunakan Google Maps untuk panduan navigasi ke venue
+    </small>
+</div>
             </div>
         </div>
 
@@ -469,6 +479,7 @@
         </div>
     </div>
 
+    <!--FILTER VENUE-->
     <div id="view-venue-list" class="d-none">
         <div class="container py-5">
             <div class="mb-3">
@@ -495,6 +506,11 @@
                     <option value="Depok">Depok</option>
                     <option value="Tangerang">Tangerang</option>
                     <option value="Bekasi">Bekasi</option>
+                    <option value="Bali">Bali</option>
+                    <option value="Bogor">Bogor</option>
+                    <option value="Surabaya">Surabaya</option>
+                    <option value="Semarang">Semarang</option>
+                    <option value="Medan">Medan</option>
                 </select>
             </div>
 
@@ -506,6 +522,9 @@
                     <option value="Futsal">Futsal</option>
                     <option value="Badminton">Badminton</option>
                     <option value="Tennis">Tenis</option>
+                    <option value="Padel">Padel</option>
+                     <option value="Basket">Basket</option>
+                     <option value="Volley">Volley</option>
                 </select>
             </div>
 
@@ -1031,6 +1050,8 @@
         </div>
     </div>
 
+    
+
     <div class="modal fade" id="eTicketModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -1072,6 +1093,46 @@
             </div>
         </div>
     </div>
+    
+<!--CART MODAL-->
+    <div class="modal fade" id="cartModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-white border-bottom-0">
+                <h5 class="modal-title fw-bold">
+                    <i class="fas fa-shopping-cart me-2"></i>Keranjang Booking
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-0">
+                <div id="cart-items-container" style="max-height: 400px; overflow-y: auto;">
+                    </div>
+                
+                <div id="cart-empty-state" class="text-center py-5 d-none">
+                    <i class="fas fa-shopping-basket fa-3x text-muted mb-3" style="opacity: 0.3;"></i>
+                    <p class="text-muted">Keranjang masih kosong</p>
+                    <button class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal">Cari Venue</button>
+                </div>
+            </div>
+            <div class="modal-footer bg-light justify-content-between">
+                <div>
+                    <span class="text-muted small d-block">Total Tagihan</span>
+                    <span class="fw-bold text-danger fs-5" id="cart-total-price">Rp 0</span>
+                </div>
+                <button type="button" class="btn btn-danger fw-bold px-4" onclick="proceedToPaymentFromCart()">
+                    BAYAR SEKARANG
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>
+
+
+
+
+
+
+
