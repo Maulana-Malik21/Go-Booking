@@ -1172,3 +1172,75 @@ img {
     background-color: #fff;
 }
 
+/* === PROFILE PAGE STYLING === */
+.upload-area {
+    border: 2px dashed #ccc;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.upload-area:hover {
+    background-color: #e9ecef !important;
+    border-color: var(--primary-color);
+}
+
+/* Profile Content Sections */
+.profile-tab-content {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Profile Tab Link Active State */
+.profile-tab-link.active {
+    color: var(--primary-color) !important;
+    background: none !important;
+    font-weight: 700;
+}
+
+/* Empty State Styling */
+.empty-state {
+    padding: 40px 20px;
+}
+
+.empty-state img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Avatar with image upload */
+#sidebar-avatar {
+    transition: all 0.3s ease;
+}
+
+#sidebar-avatar:hover {
+    transform: scale(1.05);
+}
+
+/* === VIEW ISOLATION === */
+#view-home,
+#view-booking,
+#view-venue-list,
+#view-activity, 
+#view-list-venue,
+#view-profile,
+#view-my-booking {
+    position: relative;
+    min-height: calc(100vh - 200px); /* Sesuaikan dengan tinggi navbar & footer */
+}
+
+/* Pastikan d-none benar-benar menyembunyikan */
+.d-none {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+}
+
+/* Pastikan hanya satu view yang aktif */
+.view-active {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    height: auto !important;
+    overflow: visible !important;
+}
+

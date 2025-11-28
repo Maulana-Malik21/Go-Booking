@@ -491,7 +491,7 @@ const venuesData = {
     name: "Surabaya Mini Soccer",
     loc: "Jln. Raya Kuwukan No. 61, Dk Kuwukan 1 No.1, RT.1/RW.6, Lontar, Kec. Sambikerep, Surabaya, Jawa Timur 60216",
     price: 1200000,
-    img: "./image/lapangan mini soccer surabaya.webp",
+    img: "https://awsimages.detik.net.id/community/media/visual/2025/07/09/lapangan-mini-soccer-bagian-dari-al-akbar-sport-center-1752045920297_169.jpeg?w=1200",
     type: "Soccer",
     description:
       "Stadion sepak bola modern dengan kapasitas besar. Cocok untuk pertandingan profesional.",
@@ -514,7 +514,7 @@ const venuesData = {
     name: "Baskhara Futsal Arena",
     loc: "Jl. Manyar Jaya Praja I No.47, Menur Pumpungan, Kec. Sukolilo, Surabaya, Jawa Timur 60118",
     price: 250000,
-    img: "./image/lapangan futsal surabaya.webp",
+    img: "https://image.popmama.com/post/20250124/SFC-iGfiZeJ8hJtjcS2wrJhXZJWZUyCDT3YX.jpg",
     type: "Futsal",
     description:
       "Kompleks futsal dengan 2 lapangan indoor. Fasilitas modern dan nyaman.",
@@ -536,7 +536,7 @@ const venuesData = {
     name: "SHS Badminton Courts Kenjeran",
     loc: "Jl. Kenjeran No.315, Gading, Kec. Tambaksari, Surabaya, Jawa Timur 60134",
     price: 110000,
-    img: "./image/lapangan badminton surabaya.webp",
+    img: "https://direktori.vokasi.unair.ac.id/wp-content/uploads/2024/07/image-18-3.png",
     type: "Badminton",
     description:
       "Pusat bulutangkis dengan 4 lapangan profesional. Cocok untuk turnamen nasional.",
@@ -1213,11 +1213,11 @@ function escapeHtml(unsafe) {
 
 // === NAVIGATION ===
 function openBooking(id) {
-  const data = venuesData[id];
-  if (!data) return;
+    const data = venuesData[id];
+    if (!data) return;
 
-  currentVenueId = id;
-  currentPrice = data.price;
+    currentVenueId = id;
+    currentPrice = data.price;
 
   // Populate Data
   document.getElementById("detail-title").innerText = data.name;
@@ -1253,13 +1253,13 @@ function openBooking(id) {
   renderSchedule();
 
   // Switch Views
-  document.getElementById("view-home").classList.add("d-none");
-  document.getElementById("view-venue-list").classList.add("d-none");
-  document.getElementById("view-activity").classList.add("d-none");
-  document.getElementById("view-list-venue").classList.add("d-none");
-  document.getElementById("view-booking").classList.remove("d-none");
-  window.scrollTo(0, 0);
+  hideAllViews(); // Sembunyikan home, profil, dll
+    document.getElementById("view-booking").classList.remove("d-none");
+    
+    window.scrollTo(0, 0);
 }
+
+
 
 // === GOOGLE MAPS FUNCTIONS - SIMPLE VERSION ===
 
@@ -1373,76 +1373,171 @@ function openGoogleMaps() {
     window.open(mapsUrl, "_blank");
   }
 }
+// Fungsi Helper: Sembunyikan SEMUA halaman
+function hideAllViews() {
+    const views = [
+        'view-home',
+        'view-booking',
+        'view-venue-list',
+        'view-activity',
+        'view-list-venue',
+        'view-profile',      // Pastikan ini ada
+        'view-my-booking'    // Pastikan ini ada
+    ];
+
+    views.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.add('d-none');
+    });
+}
+
 
 function goHome() {
-  document.getElementById("view-booking").classList.add("d-none");
-  document.getElementById("view-venue-list").classList.add("d-none");
-  document.getElementById("view-activity").classList.add("d-none");
-  document.getElementById("view-list-venue").classList.add("d-none");
-  document.getElementById("view-home").classList.remove("d-none");
-  window.scrollTo(0, 0);
+    hideAllViews(); // Sembunyikan profil, booking, dll
+    document.getElementById("view-home").classList.remove("d-none");
+    
+    // Reset posisi scroll ke paling atas
+    window.scrollTo(0, 0);
 }
 
 function showVenueList() {
-  document.getElementById("view-home").classList.add("d-none");
-  document.getElementById("view-booking").classList.add("d-none");
-  document.getElementById("view-activity").classList.add("d-none");
-  document.getElementById("view-list-venue").classList.add("d-none");
-  document.getElementById("view-venue-list").classList.remove("d-none");
-
-  // Render venue list
-  const container = document.getElementById("venue-list-container");
-  container.innerHTML = "";
-
-  Object.keys(venuesData).forEach((venueId) => {
-    const venue = venuesData[venueId];
-    const col = document.createElement("div");
-    col.className = "col-md-6 col-lg-4 mb-4";
-    col.innerHTML = `
-            <div class="card venue-card" onclick="openBooking('${venueId}')">
-                <img src="${venue.img}" class="card-img-top" alt="${
-      venue.name
-    }">
-                <div class="card-body">
-                    <div class="venue-name">${venue.name}</div>
-                    <div class="venue-loc">${venue.loc} - ${venue.type}</div>
-                    <div class="venue-price">Harga mulai ${formatRupiah(
-                      venue.price
-                    )}</div>
-                </div>
-            </div>
-        `;
-    container.appendChild(col);
-  });
-
-  window.scrollTo(0, 0);
+    hideAllViews();
+    document.getElementById("view-venue-list").classList.remove("d-none");
+    
+    // Reset filter visual jika perlu
+    document.getElementById("filter-city").value = "all";
+    renderVenueCards(Object.keys(venuesData));
+    
+    window.scrollTo(0, 0);
 }
 
 function showActivity() {
-  document.getElementById("view-home").classList.add("d-none");
-  document.getElementById("view-booking").classList.add("d-none");
-  document.getElementById("view-venue-list").classList.add("d-none");
-  document.getElementById("view-list-venue").classList.add("d-none");
-  document.getElementById("view-activity").classList.remove("d-none");
-  window.scrollTo(0, 0);
+    hideAllViews();
+    document.getElementById("view-activity").classList.remove("d-none");
+    window.scrollTo(0, 0);
 }
 
 function showListYourVenue() {
-  document.getElementById("view-home").classList.add("d-none");
-  document.getElementById("view-booking").classList.add("d-none");
-  document.getElementById("view-venue-list").classList.add("d-none");
-  document.getElementById("view-activity").classList.add("d-none");
-  document.getElementById("view-list-venue").classList.remove("d-none");
-  window.scrollTo(0, 0);
+    hideAllViews();
+    document.getElementById("view-list-venue").classList.remove("d-none");
+    window.scrollTo(0, 0);
 }
 
+function showProfile() {
+    // Cek login sebelum buka profil
+    const user = getCurrentUser();
+    if (!user) {
+        alert("Silakan login terlebih dahulu.");
+        showLoginModal();
+        return;
+    }
+
+    hideAllViews();
+    document.getElementById("view-profile").classList.remove("d-none");
+    
+    // Populate data profil
+    document.getElementById("sidebar-name").innerText = user.name;
+    document.getElementById("sidebar-username").innerText = user.username || "@username";
+    document.getElementById("profile-name").value = user.name;
+    document.getElementById("profile-email").value = user.email; // Jika ada input email di HTML profil
+    
+    // Populate data lain jika ada di localstorage
+    if(user.phone) document.getElementById("profile-phone").value = user.phone;
+    
+    window.scrollTo(0, 0);
+}
+
+function showMyBooking() {
+    const user = getCurrentUser();
+    if (!user) {
+        alert("Silakan login untuk melihat riwayat booking.");
+        showLoginModal();
+        return;
+    }
+
+    hideAllViews();
+    document.getElementById("view-my-booking").classList.remove("d-none")
+
+  document.getElementById("view-my-booking").classList.remove("d-none");
+  window.scrollTo(0, 0);
+
+  // Render List
+  const listContainer = document.getElementById("my-booking-list");
+  const emptyState = document.getElementById("empty-booking-state");
+
+  // Ambil history dari user object (pastikan update dari localStorage users jika perlu sinkronisasi ketat)
+  // Disini kita ambil simpel dari currentUser session
+  const history = user.bookingHistory || [];
+
+  listContainer.innerHTML = "";
+
+  if (history.length === 0) {
+    emptyState.classList.remove("d-none");
+  } else {
+    emptyState.classList.add("d-none");
+
+    history.forEach((booking) => {
+      // Generate detail slot HTML
+      let slotsHtml = "";
+      booking.items.forEach((slot) => {
+        slotsHtml += `<span class="badge bg-light text-dark border me-1 mb-1">${slot.date} (${slot.time})</span>`;
+      });
+
+      const cardHtml = `
+                <div class="booking-history-card">
+                    <div class="row align-items-center">
+                        <div class="col-md-2">
+                            <img src="${
+                              booking.venueImg
+                            }" class="img-fluid rounded" style="height: 80px; width:100%; object-fit: cover;">
+                        </div>
+                        <div class="col-md-6">
+                            <h5 class="fw-bold mb-1">${booking.venueName}</h5>
+                            <div class="text-muted small mb-2">Order ID: #${
+                              booking.id
+                            }</div>
+                            <div class="mb-2">
+                                ${slotsHtml}
+                            </div>
+                            <div class="small text-muted">Dipesan pada: ${
+                              booking.bookingDate
+                            }</div>
+                        </div>
+                        <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                            <div class="booking-status status-paid d-inline-block mb-2">${
+                              booking.status
+                            }</div>
+                            <h5 class="fw-bold text-primary">${formatRupiah(
+                              booking.totalPrice
+                            )}</h5>
+                           <button class="btn btn-sm btn-outline-primary mt-1" onclick="showETicket('${
+                             booking.id
+                           }')">Lihat E-Tiket</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+      listContainer.innerHTML += cardHtml;
+    });
+  }
+}
 function switchTab(tabName) {
   // Update active tab
   document.querySelectorAll(".tab-item").forEach((tab) => {
     tab.classList.remove("active");
   });
   event.target.classList.add("active");
-
+function hideAllViews() {
+    const views = [
+        'view-home',
+        'view-booking', 
+        'view-venue-list',
+        'view-activity',
+        'view-list-venue',
+        'view-profile',
+        'view-my-booking'
+    ];
+  }
   // Show corresponding content
   document.querySelectorAll(".tab-content").forEach((content) => {
     content.classList.remove("active");
@@ -1952,86 +2047,7 @@ function renderVenueCards(venueIds) {
   });
 }
 
-function showMyBooking() {
-  // Cek Login
-  const user = getCurrentUser();
-  if (!user) {
-    alert("Silakan login untuk melihat riwayat booking.");
-    showLoginModal();
-    return;
-  }
 
-  // Switch View
-  document.getElementById("view-home").classList.add("d-none");
-  document.getElementById("view-booking").classList.add("d-none");
-  document.getElementById("view-venue-list").classList.add("d-none");
-  document.getElementById("view-activity").classList.add("d-none");
-  document.getElementById("view-list-venue").classList.add("d-none");
-  document.getElementById("view-profile").classList.add("d-none");
-
-  document.getElementById("view-my-booking").classList.remove("d-none");
-  window.scrollTo(0, 0);
-
-  // Render List
-  const listContainer = document.getElementById("my-booking-list");
-  const emptyState = document.getElementById("empty-booking-state");
-
-  // Ambil history dari user object (pastikan update dari localStorage users jika perlu sinkronisasi ketat)
-  // Disini kita ambil simpel dari currentUser session
-  const history = user.bookingHistory || [];
-
-  listContainer.innerHTML = "";
-
-  if (history.length === 0) {
-    emptyState.classList.remove("d-none");
-  } else {
-    emptyState.classList.add("d-none");
-
-    history.forEach((booking) => {
-      // Generate detail slot HTML
-      let slotsHtml = "";
-      booking.items.forEach((slot) => {
-        slotsHtml += `<span class="badge bg-light text-dark border me-1 mb-1">${slot.date} (${slot.time})</span>`;
-      });
-
-      const cardHtml = `
-                <div class="booking-history-card">
-                    <div class="row align-items-center">
-                        <div class="col-md-2">
-                            <img src="${
-                              booking.venueImg
-                            }" class="img-fluid rounded" style="height: 80px; width:100%; object-fit: cover;">
-                        </div>
-                        <div class="col-md-6">
-                            <h5 class="fw-bold mb-1">${booking.venueName}</h5>
-                            <div class="text-muted small mb-2">Order ID: #${
-                              booking.id
-                            }</div>
-                            <div class="mb-2">
-                                ${slotsHtml}
-                            </div>
-                            <div class="small text-muted">Dipesan pada: ${
-                              booking.bookingDate
-                            }</div>
-                        </div>
-                        <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                            <div class="booking-status status-paid d-inline-block mb-2">${
-                              booking.status
-                            }</div>
-                            <h5 class="fw-bold text-primary">${formatRupiah(
-                              booking.totalPrice
-                            )}</h5>
-                           <button class="btn btn-sm btn-outline-primary mt-1" onclick="showETicket('${
-                             booking.id
-                           }')">Lihat E-Tiket</button>
-                        </div>
-                    </div>
-                </div>
-            `;
-      listContainer.innerHTML += cardHtml;
-    });
-  }
-}
 
 // === E-TICKET LOGIC ===
 function showETicket(bookingId) {
@@ -2153,7 +2169,7 @@ function checkSchedule() {
 
   if (filteredVenues.length === 0) {
     alert(
-      "❌ Tidak ada venue yang sesuai dengan kriteria pencarian.\n\nCoba ubah kota atau jenis olahraga."
+      " Tidak ada venue yang sesuai dengan kriteria pencarian.\n\nCoba ubah kota atau jenis olahraga."
     );
     return;
   }
@@ -2995,119 +3011,169 @@ function proceedToPaymentFromCart() {
   }, 400);
 }
 
-// === PROFILE LOGIC ===
 
-function showProfile() {
-  const user = getCurrentUser();
-  if (!user) {
-    alert("Silakan login terlebih dahulu untuk mengakses profil.");
-    showLoginModal();
-    return;
-  }
-
-  // 1. Sembunyikan semua view lain
-  document.getElementById("view-home").classList.add("d-none");
-  document.getElementById("view-booking").classList.add("d-none");
-  document.getElementById("view-venue-list").classList.add("d-none");
-  document.getElementById("view-activity").classList.add("d-none");
-  document.getElementById("view-list-venue").classList.add("d-none");
-  document.getElementById("view-my-booking").classList.add("d-none");
-
-  // 2. Tampilkan View Profile
-  document.getElementById("view-profile").classList.remove("d-none");
-  window.scrollTo(0, 0);
-
-  // 3. Isi Data Sidebar
-  document.getElementById("sidebar-name").innerText = user.name || "User";
-  document.getElementById("sidebar-username").innerText = user.username
-    ? "@" + user.username
-    : "@username";
-
-  // 4. Isi Form Input dari Data User
-  document.getElementById("profile-name").value = user.name || "";
-  document.getElementById("profile-username").value = user.username || "";
-  document.getElementById("profile-phone").value = user.phone || "";
-  document.getElementById("profile-gender").value = user.gender || "";
-
-  // Isi Tanggal Lahir
-  if (user.dobMonth)
-    document.getElementById("profile-month").value = user.dobMonth;
-  if (user.dobYear)
-    document.getElementById("profile-year").value = user.dobYear;
-  if (user.dobDate)
-    document.getElementById("profile-date").value = user.dobDate;
-
-  // 5. Set Status Olahraga Favorit (Highlight Icon)
-  const savedSports = user.sports || [];
-  document.querySelectorAll(".sport-item").forEach((item) => {
-    // Ambil nama olahraga dari atribut onclick, misal: toggleSport(this, 'Futsal')
-    const onclickAttr = item.getAttribute("onclick");
-    const match = onclickAttr.match(/'([^']+)'/); // Regex ambil teks dalam kutip
-
-    if (match && savedSports.includes(match[1])) {
-      item.classList.add("selected");
-    } else {
-      item.classList.remove("selected");
-    }
-  });
-}
-
-function toggleSport(element, sportName) {
-  // Fungsi untuk memberikan efek seleksi pada icon olahraga
-  element.classList.toggle("selected");
-}
-
-function saveProfile() {
-  const user = getCurrentUser();
-  if (!user) return;
-
-  // 1. Ambil nilai dari form
-  user.name = document.getElementById("profile-name").value.trim();
-  user.username = document.getElementById("profile-username").value.trim();
-  user.phone = document.getElementById("profile-phone").value.trim();
-  user.gender = document.getElementById("profile-gender").value;
-  user.dobMonth = document.getElementById("profile-month").value;
-  user.dobYear = document.getElementById("profile-year").value;
-  user.dobDate = document.getElementById("profile-date").value;
-
-  // 2. Ambil olahraga yang dipilih (class 'selected')
-  const selectedSports = [];
-  document.querySelectorAll(".sport-item.selected").forEach((item) => {
-    const onclickAttr = item.getAttribute("onclick");
-    const match = onclickAttr.match(/'([^']+)'/);
-    if (match) {
-      selectedSports.push(match[1]);
-    }
-  });
-  user.sports = selectedSports;
-
-  // 3. Simpan update ke LocalStorage
-  const users = JSON.parse(localStorage.getItem("gelora_users") || "[]");
-  const userIndex = users.findIndex((u) => u.email === user.email);
-
-  if (userIndex !== -1) {
-    users[userIndex] = user; // Update data di array besar
-    localStorage.setItem("gelora_users", JSON.stringify(users));
-    localStorage.setItem("gelora_current_user", JSON.stringify(user)); // Update sesi saat ini
-
-    alert("Profil berhasil diperbarui!");
-
-    // Update UI Nama di Navbar dan Sidebar tanpa reload
-    updateAuthUI();
-    document.getElementById("sidebar-name").innerText = user.name;
-    document.getElementById("sidebar-username").innerText = user.username
-      ? "@" + user.username
-      : "@username";
-  } else {
-    alert("Gagal menyimpan profil. User tidak ditemukan.");
-  }
-}
-
-s;
 // Panggil setup mobile menu saat DOM ready
 document.addEventListener("DOMContentLoaded", function () {
   setupMobileMenu();
 });
+
+
+// === GLOBAL VARIABLES UNTUK PROFIL ===
+let tempSelectedSports = []; // Menyimpan olahraga yang dipilih sementara
+let tempProfileImage = "";   // Menyimpan string base64 gambar sementara
+
+// === 1. FUNGSI UPLOAD GAMBAR ===
+function handleImageUpload(input) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+            // Tampilkan preview gambar
+            document.getElementById('profile-preview-img').src = e.target.result;
+            // Simpan data base64 ke variabel sementara
+            tempProfileImage = e.target.result;
+        }
+        
+        // Baca file sebagai Data URL (Base64)
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+// === 2. FUNGSI PILIH OLAHRAGA ===
+function toggleSport(element, sportName) {
+    // Toggle class visual
+    element.classList.toggle('selected');
+    
+    // Logika array
+    if (tempSelectedSports.includes(sportName)) {
+        // Jika sudah ada, hapus
+        tempSelectedSports = tempSelectedSports.filter(s => s !== sportName);
+    } else {
+        // Jika belum ada, tambahkan
+        tempSelectedSports.push(sportName);
+    }
+    
+    console.log("Olahraga dipilih:", tempSelectedSports);
+}
+
+// === 3. FUNGSI SIMPAN PROFIL ===
+function saveProfile() {
+    const currentUser = getCurrentUser();
+    if (!currentUser) return;
+
+    // Ambil nilai dari input form
+    const newName = document.getElementById('profile-name').value;
+    const newUsername = document.getElementById('profile-username').value;
+    const newPhone = document.getElementById('profile-phone').value;
+    const newGender = document.getElementById('profile-gender').value;
+    const newMonth = document.getElementById('profile-month').value;
+    const newYear = document.getElementById('profile-year').value;
+    const newDate = document.getElementById('profile-date').value;
+
+    // Update object user
+    currentUser.name = newName;
+    currentUser.username = newUsername;
+    currentUser.phone = newPhone;
+    currentUser.gender = newGender;
+    currentUser.dobMonth = newMonth;
+    currentUser.dobYear = newYear;
+    currentUser.dobDate = newDate;
+    
+    // Update olahraga dan foto (jika ada perubahan)
+    currentUser.sports = tempSelectedSports;
+    if (tempProfileImage) {
+        currentUser.avatar = tempProfileImage;
+    }
+
+    // SIMPAN KE LOCALSTORAGE (WAJIB UPDATE ARRAY UTAMA JUGA)
+    // 1. Update Current User Session
+    localStorage.setItem('gelora_current_user', JSON.stringify(currentUser));
+
+    // 2. Update di dalam Array 'gelora_users' (Database semu)
+    let allUsers = JSON.parse(localStorage.getItem('gelora_users') || "[]");
+    const userIndex = allUsers.findIndex(u => u.email === currentUser.email);
+    
+    if (userIndex !== -1) {
+        allUsers[userIndex] = currentUser; // Timpa data lama dengan yang baru
+        localStorage.setItem('gelora_users', JSON.stringify(allUsers));
+    }
+
+    // Update tampilan sidebar langsung
+    document.getElementById('sidebar-name').innerText = currentUser.name;
+    document.getElementById('sidebar-username').innerText = currentUser.username || "@username";
+    updateAuthUI(); // Update nama di navbar juga
+
+    alert("Profil berhasil disimpan!");
+}
+
+// === 4. UPDATE FUNGSI SHOW PROFILE ===
+// Ganti fungsi showProfile yang lama dengan yang ini
+function showProfile() {
+    const user = getCurrentUser();
+    if (!user) {
+        alert("Silakan login terlebih dahulu.");
+        showLoginModal();
+        return;
+    }
+
+    // Panggil fungsi helper navigasi (dari jawaban sebelumnya)
+    hideAllViews(); 
+    document.getElementById("view-profile").classList.remove("d-none");
+    
+    // --- LOAD DATA USER KE FORM ---
+    document.getElementById("sidebar-name").innerText = user.name;
+    document.getElementById("sidebar-username").innerText = user.username || "@username";
+    
+    // Load Input Values
+    document.getElementById("profile-name").value = user.name || "";
+    document.getElementById("profile-username").value = user.username || "";
+    document.getElementById("profile-phone").value = user.phone || "";
+    document.getElementById("profile-gender").value = user.gender || "";
+    document.getElementById("profile-month").value = user.dobMonth || "";
+    document.getElementById("profile-year").value = user.dobYear || "";
+    document.getElementById("profile-date").value = user.dobDate || "";
+
+    // --- LOAD FOTO PROFIL ---
+    const imgPreview = document.getElementById('profile-preview-img');
+    if (user.avatar) {
+        imgPreview.src = user.avatar;
+        tempProfileImage = user.avatar; // Set agar tidak hilang jika save ulang tanpa ganti foto
+    } else {
+        // Default avatar jika belum ada
+        imgPreview.src = "https://cdn-icons-png.flaticon.com/512/1077/1077114.png";
+        tempProfileImage = "";
+    }
+
+    // --- LOAD OLAHRAGA FAVORIT ---
+    // Reset state visual dan variabel
+    tempSelectedSports = user.sports || [];
+    
+    // Hapus semua class 'selected' dulu
+    document.querySelectorAll('.sport-item').forEach(el => {
+        el.classList.remove('selected');
+    });
+
+    // Loop elemen sport item untuk menandai yang sudah dipilih user
+    document.querySelectorAll('.sport-item').forEach(el => {
+        // Ambil nama sport dari atribut onclick
+        // Cara parsing sederhana string onclick: toggleSport(this, 'Mini Soccer')
+        const onclickText = el.getAttribute('onclick');
+        if (onclickText) {
+            // Ambil text di dalam tanda kutip tunggal
+            const match = onclickText.match(/'([^']+)'/);
+            if (match && match[1]) {
+                const sportName = match[1];
+                // Jika sportName ada di data user, tambahkan class selected
+                if (tempSelectedSports.includes(sportName)) {
+                    el.classList.add('selected');
+                }
+            }
+        }
+    });
+
+    window.scrollTo(0, 0);
+}
+
 
 // Handle window resize
 window.addEventListener("resize", function () {
