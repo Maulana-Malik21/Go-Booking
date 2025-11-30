@@ -12,36 +12,36 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg bg-white sticky-top">
-        <div class="container">
-            <a class="navbar-brand" href="javascript:void(0)" onclick="goHome()">
-                <img src="logo.png"><span>Let's Booking</span>
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto align-items-center">
-                    <li class="nav-item"><a class="nav-link" href="javascript:void(0)" onclick="goHome()">HOME</a></li>
-                    <li class="nav-item"><a class="nav-link" href="javascript:void(0)" onclick="showVenueList()">VENUE</a></li>
-                    <li class="nav-item"><a class="nav-link" href="javascript:void(0)" onclick="showActivity()">ACTIVITY</a></li>
-                    <li class="nav-item">
-                        <a class="btn btn-sm btn-list-venue me-3" href="javascript:void(0)" onclick="showListYourVenue()">LIST YOUR VENUE</a>
-                    </li>
-                    <li class="nav-item position-relative">
-                        <a class="nav-link" href="javascript:void(0)" onclick="showCartModal()">
-                            <i class="fas fa-shopping-cart"></i>
-                            <span id="nav-cart-badge" class="badge rounded-pill bg-danger cart-badge">0</span>
-                        </a>
-                    </li>
-                    <li class="nav-item dropdown" id="nav-auth-area">
-                        <a class="nav-link" href="javascript:void(0)" id="btnShowLogin" onclick="showLoginModal()">LOGIN</a>
-                    </li>
-                </ul>
-            </div>
+ <!-- NAVBAR TETAP DI ATAS -->
+<nav class="navbar navbar-expand-lg bg-white fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="javascript:void(0)" onclick="goHome()">
+            <img src="logo.png" alt="Logo">
+            <span style="color: white;">Let's Booking</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-center">
+                <li class="nav-item"><a class="nav-link" href="javascript:void(0)" onclick="goHome()">HOME</a></li>
+                <li class="nav-item"><a class="nav-link" href="javascript:void(0)" onclick="showVenueList()">VENUE</a></li>
+                <li class="nav-item">
+                    <a class="btn btn-sm btn-list-venue me-3" href="javascript:void(0)" onclick="showListYourVenue()">LIST YOUR VENUE</a>
+                </li>
+                <li class="nav-item position-relative">
+                    <a class="nav-link" href="javascript:void(0)" onclick="showCartModal()">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span id="nav-cart-badge" class="badge rounded-pill bg-danger cart-badge">0</span>
+                    </a>
+                </li>
+                <li class="nav-item dropdown" id="nav-auth-area">
+                    <a class="nav-link" href="javascript:void(0)" id="btnShowLogin" onclick="showLoginModal()">LOGIN</a>
+                </li>
+            </ul>
         </div>
-    </nav>
-
+    </div>
+</nav>
     <!-- ===== VIEW HOME ===== -->
     <div id="view-home">
         <!-- SECTION SEARCH -->
@@ -137,11 +137,26 @@
                                 <div class="carousel-caption">
                                     <h2 class="fw-bold">ASATU ARENA CIKINI</h2>
                                     <p>Lapangan Mini Soccer Outdoor dengan rumput sintetis standar FIFA.</p>
-                                    <button class="btn btn-warning fw-bold" onclick="openBooking('asatu')" event.stopPropagation()>BOOKING NOW</button>
+                                   <button class="btn btn-warning fw-bold" 
+    onclick="event.stopPropagation(); openBooking('asatu')" 
+    onmousedown="event.stopPropagation()" 
+    ontouchstart="event.stopPropagation()">
+    BOOKING NOW
+</button>
                                 </div>
                             </div>
                             <div class="carousel-item">
                                 <img src="https://asset.ayo.co.id/image/venue/165589181882791.image_cropper_97735C2B-26B5-421C-9E4A-7128A7112E3A-37880-000006F883353C2A_large.jpg" class="d-block w-100" alt="Banner 2">
+                                <div class="carousel-caption">
+                                    <h2 class="fw-bold">TIFOSI SPORT CENTER</h2>
+                                    <p>Lapangan Futsal Indoor dengan lantai vinyl standar Internasional.</p>
+                                   <button class="btn btn-warning fw-bold" 
+    onclick="event.stopPropagation(); openBooking('sportiva')" 
+    onmousedown="event.stopPropagation()" 
+    ontouchstart="event.stopPropagation()">
+    BOOKING NOW
+</button>
+                                </div>
                             </div>
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
@@ -311,7 +326,7 @@
                 </div>
                 <div class="row mt-4 pt-4 border-top">
                     <div class="col-md-6">
-                        <small>&copy; 2025 Let's Booking - All Rights Reserved</small>
+                        <small>&copy; 2025 Gelora.id - All Rights Reserved</small>
                     </div>
                     <div class="col-md-6 text-md-end">
                         <small class="me-3"><a href="#" class="text-decoration-none text-muted">Privacy Policy</a></small>
@@ -438,7 +453,6 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- Google Maps Section -->
                 <div class="mt-4">
                     <div class="d-flex justify-content-between align-items-center mb-3">
@@ -604,113 +618,146 @@
     <!-- ===== END VIEW ACTIVITY ===== -->
 
     <!-- ===== VIEW LIST VENUE ===== -->
-    <div id="view-list-venue" class="d-none">
-        <div class="container py-5">
-            <div class="mb-3">
-                <button class="btn btn-outline-secondary btn-sm" onclick="goHome()">
-                    <i class="fas fa-arrow-left"></i> Kembali ke Home
-                </button>
-            </div>
-            
-            <h1 class="section-title">Daftarkan <span>Venue Anda</span></h1>
-            <p class="text-muted mb-4">Bergabunglah dengan Gelora untuk mengelola dan mempromosikan venue olahraga Anda</p>
-            
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Form Pendaftaran Venue</h5>
-                            <form>
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label">Nama Venue</label>
-                                        <input type="text" class="form-control" placeholder="Nama venue Anda">
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label">Jenis Olahraga</label>
-                                        <select class="form-select">
-                                            <option selected>Pilih jenis olahraga</option>
-                                            <option>Sepak Bola</option>
-                                            <option>Futsal</option>
-                                            <option>Badminton</option>
-                                            <option>Tenis</option>
-                                            <option>Basket</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Alamat Lengkap</label>
-                                    <textarea class="form-control" rows="3" placeholder="Alamat lengkap venue"></textarea>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-4 mb-3">
-                                        <label class="form-label">Kota</label>
-                                        <input type="text" class="form-control" placeholder="Kota">
-                                    </div>
-                                    <div class="col-md-4 mb-3">
-                                        <label class="form-label">Provinsi</label>
-                                        <input type="text" class="form-control" placeholder="Provinsi">
-                                    </div>
-                                    <div class="col-md-4 mb-3">
-                                        <label class="form-label">Kode Pos</label>
-                                        <input type="text" class="form-control" placeholder="Kode Pos">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label">Jumlah Lapangan</label>
-                                        <input type="number" class="form-control" placeholder="Jumlah lapangan">
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label">Harga per Jam</label>
-                                        <input type="number" class="form-control" placeholder="Harga per jam">
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Fasilitas</label>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="facility1">
-                                        <label class="form-check-label" for="facility1">Parkir Luas</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="facility2">
-                                        <label class="form-check-label" for="facility2">Kamar Ganti</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="facility3">
-                                        <label class="form-check-label" for="facility3">Kantin</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="facility4">
-                                        <label class="form-check-label" for="facility4">Toilet</label>
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Foto Venue</label>
-                                    <input type="file" class="form-control" multiple>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Daftarkan Venue</button>
-                            </form>
-                        </div>
-                    </div>
+   <div id="view-list-venue" class="d-none">
+    <div class="container py-5">
+        <div class="mb-3">
+            <button class="btn btn-outline-secondary btn-sm" onclick="goHome()">
+                <i class="fas fa-arrow-left"></i> Kembali ke Home
+            </button>
+        </div>
+        
+        <div class="text-center mb-5">
+            <h1 class="section-title">Let's <span>Partner</span></h1>
+            <p class="text-muted" style="max-width: 600px; margin: 0 auto;">
+                Bergabunglah dengan jaringan venue olahraga terbesar. Kelola jadwal, pembayaran, dan pelanggan dalam satu aplikasi.
+            </p>
+        </div>
+
+        <div class="row text-center mb-5">
+            <div class="col-md-3 mb-3">
+                <div class="p-3 border rounded bg-white shadow-sm h-100">
+                    <i class="fas fa-users fa-2x text-primary mb-3"></i>
+                    <h6 class="fw-bold">Jangkauan Luas</h6>
+                    <p class="small text-muted mb-0">Akses ke ribuan pengguna aktif yang mencari lapangan setiap hari.</p>
                 </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Keuntungan Bergabung</h5>
-                            <ul>
-                                <li class="mb-2">Jangkauan pelanggan yang lebih luas</li>
-                                <li class="mb-2">Sistem booking yang terintegrasi</li>
-                                <li class="mb-2">Manajemen jadwal yang mudah</li>
-                                <li class="mb-2">Pembayaran yang aman dan terpercaya</li>
-                                <li class="mb-2">Laporan keuangan yang terperinci</li>
-                            </ul>
-                        </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="p-3 border rounded bg-white shadow-sm h-100">
+                    <i class="fas fa-calendar-alt fa-2x text-success mb-3"></i>
+                    <h6 class="fw-bold">Manajemen Mudah</h6>
+                    <p class="small text-muted mb-0">Atur jadwal, harga, dan ketersediaan lapangan semudah update status.</p>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="p-3 border rounded bg-white shadow-sm h-100">
+                    <i class="fas fa-shield-alt fa-2x text-warning mb-3"></i>
+                    <h6 class="fw-bold">Pembayaran Aman</h6>
+                    <p class="small text-muted mb-0">Sistem pembayaran terintegrasi mengurangi risiko no-show (batal sepihak).</p>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="p-3 border rounded bg-white shadow-sm h-100">
+                    <i class="fas fa-chart-line fa-2x text-danger mb-3"></i>
+                    <h6 class="fw-bold">Laporan Bisnis</h6>
+                    <p class="small text-muted mb-0">Pantau performa bisnis Anda dengan laporan pendapatan yang transparan.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white border-bottom-0 pt-4 pb-0 text-center">
+                        <h4 class="card-title fw-bold">Daftarkan Venue Baru</h4>
+                    </div>
+                    <div class="card-body p-4">
+                        <form id="form-register-venue" onsubmit="event.preventDefault(); registerVenue();">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label small fw-bold">Nama Venue</label>
+                                    <input type="text" id="reg-name" class="form-control" placeholder="Nama venue Anda" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label small fw-bold">Jenis Olahraga</label>
+                                    <select id="reg-sport" class="form-select" required>
+                                        <option value="" selected>Pilih jenis olahraga</option>
+                                        <option value="Soccer">Sepak Bola / Mini Soccer</option>
+                                        <option value="Futsal">Futsal</option>
+                                        <option value="Badminton">Badminton</option>
+                                        <option value="Tennis">Tenis</option>
+                                        <option value="Padel">Padel</option>
+                                        <option value="Basket">Basket</option>
+                                        <option value="Voli">Voli</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label small fw-bold">Alamat Lengkap</label>
+                                <textarea id="reg-address" class="form-control" rows="2" placeholder="Jalan, Nomor, RT/RW..." required></textarea>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label small fw-bold">Kota</label>
+                                    <input type="text" id="reg-city" list="city-list" class="form-control" placeholder="Kota" required>
+                                    <datalist id="city-list">
+                                        <option value="Jakarta">
+                                        <option value="Bandung">
+                                        <option value="Surabaya">
+                                        <option value="Medan">
+                                        <option value="Bali">
+                                        <option value="Bogor">
+                                        <option value="Semarang">
+                                    </datalist>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label small fw-bold">Jumlah Lapangan</label>
+                                    <input type="number" id="reg-fields" class="form-control" placeholder="Contoh: 2">
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label small fw-bold">Harga per Jam (Rp)</label>
+                                    <input type="number" id="reg-price" class="form-control" placeholder="Contoh: 150000" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label small fw-bold">Fasilitas</label>
+                                <div class="d-flex flex-wrap gap-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input reg-facility" type="checkbox" value="Parkir Luas" id="fac1">
+                                        <label class="form-check-label" for="fac1">Parkir</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input reg-facility" type="checkbox" value="Toilet" id="fac2">
+                                        <label class="form-check-label" for="fac2">Toilet</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input reg-facility" type="checkbox" value="Kantin" id="fac3">
+                                        <label class="form-check-label" for="fac3">Kantin</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input reg-facility" type="checkbox" value="Wifi" id="fac4">
+                                        <label class="form-check-label" for="fac4">Wifi</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="form-label small fw-bold">Foto Venue</label>
+                                <input type="file" id="reg-photo" class="form-control" accept="image/*" onchange="handleVenueImageUpload(this)">
+                                <div class="mt-2 text-center">
+                                    <img id="venue-preview-img" src="" style="max-height: 200px; display: none; border-radius: 8px; margin: 0 auto;">
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary w-100 fw-bold py-3 text-uppercase">
+                                <i class="fas fa-plus-circle me-2"></i>Daftarkan Venue
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
     <!-- ===== END VIEW LIST VENUE ===== -->
 
     <!-- ===== VIEW PROFILE ===== -->
@@ -745,8 +792,6 @@
 
                         <div class="list-group list-group-flush text-start">
                             <a href="#" class="list-group-item list-group-item-action active border-0 fw-bold" style="color: var(--primary-color); background: none;">Update Profile</a>
-                            <a href="#" class="list-group-item list-group-item-action border-0">Komunitas</a>
-                            <a href="#" class="list-group-item list-group-item-action border-0">Aktivitas</a>
                         </div>
                     </div>
                 </div>

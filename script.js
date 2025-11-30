@@ -1374,21 +1374,57 @@ function openGoogleMaps() {
   }
 }
 // Fungsi Helper: Sembunyikan SEMUA halaman
+// === PERBAIKAN FUNGSI NAVIGASI UTAMA ===
+
+// 1. Fungsi untuk menyembunyikan SEMUA halaman
 function hideAllViews() {
     const views = [
         'view-home',
-        'view-booking',
+        'view-booking', 
         'view-venue-list',
         'view-activity',
         'view-list-venue',
-        'view-profile',      // Pastikan ini ada
-        'view-my-booking'    // Pastikan ini ada
+        'view-profile',      // Pastikan ID ini sesuai dengan HTML
+        'view-my-booking'    // Pastikan ID ini sesuai dengan HTML
     ];
 
     views.forEach(id => {
         const el = document.getElementById(id);
         if (el) el.classList.add('d-none');
     });
+    
+    // Pastikan navbar muncul kembali jika sebelumnya disembunyikan
+    const navbar = document.querySelector('.navbar');
+    if (navbar) navbar.classList.remove('navbar-hidden');
+}
+
+// 2. Fungsi Mobile Menu (Diperbaiki agar Profil bisa diklik)
+function setupMobileMenu() {
+    const navbarToggler = document.querySelector(".navbar-toggler");
+    const navbarCollapse = document.querySelector(".navbar-collapse");
+  
+    if (navbarToggler && navbarCollapse) {
+        // Ambil link nav dan item dropdown
+        const allNavLinks = document.querySelectorAll(".nav-link, .dropdown-item, .btn-list-venue");
+        
+        allNavLinks.forEach((link) => {
+            link.addEventListener("click", function (e) {
+                // PENTING: Jika yang diklik adalah tombol "Hi, User" (Dropdown Toggle), JANGAN tutup menu
+                if (this.classList.contains("dropdown-toggle")) {
+                    return; 
+                }
+
+                // Jika mode mobile (< 992px) dan menu sedang terbuka
+                if (window.innerWidth < 992 && navbarCollapse.classList.contains("show")) {
+                    // Beri jeda 200ms agar fungsi onClick (seperti showProfile) jalan dulu, baru menu nutup
+                    setTimeout(() => {
+                        const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse) || new bootstrap.Collapse(navbarCollapse);
+                        bsCollapse.hide();
+                    }, 200); 
+                }
+            });
+        });
+    }
 }
 
 
@@ -1423,103 +1459,166 @@ function showListYourVenue() {
     window.scrollTo(0, 0);
 }
 
+// === GANTI FUNGSI showProfile DENGAN INI ===
 function showProfile() {
-    // Cek login sebelum buka profil
     const user = getCurrentUser();
     if (!user) {
+        // Jika belum login, paksa tutup navbar dan buka modal login
+        closeMobileMenu(); 
+        forceCloseDropdown(); // Tambahan baru
         alert("Silakan login terlebih dahulu.");
         showLoginModal();
         return;
     }
 
+    // 1. Tutup Menu Mobile (Hamburger)
+    closeMobileMenu();
+    
+    // 2. Tutup Dropdown User (Ini yang memperbaiki masalah Anda)
+    forceCloseDropdown();
+
+    // 3. Pindah Halaman
     hideAllViews();
     document.getElementById("view-profile").classList.remove("d-none");
     
-    // Populate data profil
+    // 4. Pastikan Navbar terlihat (tidak hidden) dan scroll ke atas
+    const navbar = document.querySelector('.navbar');
+    if (navbar) navbar.classList.remove('navbar-hidden');
+
+    setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 50);
+    
+    // --- LOAD DATA USER KE FORM (Kode Lama) ---
     document.getElementById("sidebar-name").innerText = user.name;
     document.getElementById("sidebar-username").innerText = user.username || "@username";
-    document.getElementById("profile-name").value = user.name;
-    document.getElementById("profile-email").value = user.email; // Jika ada input email di HTML profil
     
-    // Populate data lain jika ada di localstorage
-    if(user.phone) document.getElementById("profile-phone").value = user.phone;
-    
-    window.scrollTo(0, 0);
+    document.getElementById("profile-name").value = user.name || "";
+    document.getElementById("profile-username").value = user.username || "";
+    document.getElementById("profile-phone").value = user.phone || "";
+    document.getElementById("profile-gender").value = user.gender || "";
+    document.getElementById("profile-month").value = user.dobMonth || "";
+    document.getElementById("profile-year").value = user.dobYear || "";
+    document.getElementById("profile-date").value = user.dobDate || "";
+
+    // Load Foto & Sport
+    const imgPreview = document.getElementById('profile-preview-img');
+    if (user.avatar) {
+        imgPreview.src = user.avatar;
+        tempProfileImage = user.avatar;
+    } else {
+        imgPreview.src = "https://cdn-icons-png.flaticon.com/512/1077/1077114.png";
+        tempProfileImage = "";
+    }
+
+    tempSelectedSports = user.sports || [];
+    document.querySelectorAll('.sport-item').forEach(el => {
+        el.classList.remove('selected');
+    });
+
+    document.querySelectorAll('.sport-item').forEach(el => {
+        const onclickText = el.getAttribute('onclick');
+        if (onclickText) {
+            const match = onclickText.match(/'([^']+)'/);
+            if (match && match[1]) {
+                const sportName = match[1];
+                if (tempSelectedSports.includes(sportName)) {
+                    el.classList.add('selected');
+                }
+            }
+        }
+    });
+
+  
+    // Load Olahraga Favorit (Kode lama)
+    tempSelectedSports = user.sports || [];
+    document.querySelectorAll('.sport-item').forEach(el => {
+        el.classList.remove('selected');
+    });
+    document.querySelectorAll('.sport-item').forEach(el => {
+        const onclickText = el.getAttribute('onclick');
+        if (onclickText) {
+            const match = onclickText.match(/'([^']+)'/);
+            if (match && match[1]) {
+                const sportName = match[1];
+                if (tempSelectedSports.includes(sportName)) {
+                    el.classList.add('selected');
+                }
+            }
+        }
+    });
+
+    // 5. Scroll Paksa ke Atas
+    setTimeout(() => {
+        window.scrollTo(0, 0);
+    }, 100); // Beri jeda sedikit agar transisi menu selesai
 }
 
+
+// === GANTI FUNGSI showMyBooking DENGAN INI ===
 function showMyBooking() {
     const user = getCurrentUser();
     if (!user) {
+        closeMobileMenu();
         alert("Silakan login untuk melihat riwayat booking.");
         showLoginModal();
         return;
     }
 
+    // 1. Tutup Menu Mobile
+    closeMobileMenu();
+
+    // 2. Pindah Halaman
     hideAllViews();
-    document.getElementById("view-my-booking").classList.remove("d-none")
+    document.getElementById("view-my-booking").classList.remove("d-none");
 
-  document.getElementById("view-my-booking").classList.remove("d-none");
-  window.scrollTo(0, 0);
+    // 3. Scroll Paksa ke Atas
+    setTimeout(() => {
+        window.scrollTo(0, 0);
+    }, 100);
 
-  // Render List
-  const listContainer = document.getElementById("my-booking-list");
-  const emptyState = document.getElementById("empty-booking-state");
+    // 4. Render List (Kode lama Anda)
+    const listContainer = document.getElementById("my-booking-list");
+    const emptyState = document.getElementById("empty-booking-state");
+    
+    // Pastikan user.bookingHistory ada
+    const history = user.bookingHistory || [];
+    
+    listContainer.innerHTML = "";
 
-  // Ambil history dari user object (pastikan update dari localStorage users jika perlu sinkronisasi ketat)
-  // Disini kita ambil simpel dari currentUser session
-  const history = user.bookingHistory || [];
+    if (history.length === 0) {
+        emptyState.classList.remove("d-none");
+    } else {
+        emptyState.classList.add("d-none");
+        history.forEach((booking) => {
+            let slotsHtml = "";
+            booking.items.forEach((slot) => {
+                slotsHtml += `<span class="badge bg-light text-dark border me-1 mb-1">${slot.date} (${slot.time})</span>`;
+            });
 
-  listContainer.innerHTML = "";
-
-  if (history.length === 0) {
-    emptyState.classList.remove("d-none");
-  } else {
-    emptyState.classList.add("d-none");
-
-    history.forEach((booking) => {
-      // Generate detail slot HTML
-      let slotsHtml = "";
-      booking.items.forEach((slot) => {
-        slotsHtml += `<span class="badge bg-light text-dark border me-1 mb-1">${slot.date} (${slot.time})</span>`;
-      });
-
-      const cardHtml = `
+            const cardHtml = `
                 <div class="booking-history-card">
                     <div class="row align-items-center">
                         <div class="col-md-2">
-                            <img src="${
-                              booking.venueImg
-                            }" class="img-fluid rounded" style="height: 80px; width:100%; object-fit: cover;">
+                            <img src="${booking.venueImg}" class="img-fluid rounded" style="height: 80px; width:100%; object-fit: cover;">
                         </div>
                         <div class="col-md-6">
                             <h5 class="fw-bold mb-1">${booking.venueName}</h5>
-                            <div class="text-muted small mb-2">Order ID: #${
-                              booking.id
-                            }</div>
-                            <div class="mb-2">
-                                ${slotsHtml}
-                            </div>
-                            <div class="small text-muted">Dipesan pada: ${
-                              booking.bookingDate
-                            }</div>
+                            <div class="text-muted small mb-2">Order ID: #${booking.id}</div>
+                            <div class="mb-2">${slotsHtml}</div>
+                            <div class="small text-muted">Dipesan pada: ${booking.bookingDate}</div>
                         </div>
                         <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                            <div class="booking-status status-paid d-inline-block mb-2">${
-                              booking.status
-                            }</div>
-                            <h5 class="fw-bold text-primary">${formatRupiah(
-                              booking.totalPrice
-                            )}</h5>
-                           <button class="btn btn-sm btn-outline-primary mt-1" onclick="showETicket('${
-                             booking.id
-                           }')">Lihat E-Tiket</button>
+                            <div class="booking-status status-paid d-inline-block mb-2">${booking.status}</div>
+                            <h5 class="fw-bold text-primary">${formatRupiah(booking.totalPrice)}</h5>
+                           <button class="btn btn-sm btn-outline-primary mt-1" onclick="showETicket('${booking.id}')">Lihat E-Tiket</button>
                         </div>
                     </div>
                 </div>
             `;
-      listContainer.innerHTML += cardHtml;
-    });
-  }
+            listContainer.innerHTML += cardHtml;
+        });
+    }
 }
 function switchTab(tabName) {
   // Update active tab
@@ -1527,17 +1626,7 @@ function switchTab(tabName) {
     tab.classList.remove("active");
   });
   event.target.classList.add("active");
-function hideAllViews() {
-    const views = [
-        'view-home',
-        'view-booking', 
-        'view-venue-list',
-        'view-activity',
-        'view-list-venue',
-        'view-profile',
-        'view-my-booking'
-    ];
-  }
+
   // Show corresponding content
   document.querySelectorAll(".tab-content").forEach((content) => {
     content.classList.remove("active");
@@ -2001,50 +2090,72 @@ function applyFilters() {
 }
 
 // 3. Helper Function untuk merender kartu HTML
+// === FUNGSI RENDER CARD (Ganti seluruh fungsi renderVenueCards yang ada dengan ini) ===
 function renderVenueCards(venueIds) {
-  const container = document.getElementById("venue-list-container");
-  container.innerHTML = "";
+    const container = document.getElementById("venue-list-container");
+    container.innerHTML = "";
 
-  if (venueIds.length === 0) {
-    container.innerHTML = `
+    // 1. Tampilkan pesan jika tidak ada venue
+    if (venueIds.length === 0) {
+        container.innerHTML = `
             <div class="col-12 text-center py-5">
                 <i class="fas fa-search fa-3x text-muted mb-3"></i>
                 <h5 class="text-muted">Venue tidak ditemukan</h5>
                 <p class="text-muted small">Coba ubah filter pencarian Anda.</p>
             </div>
         `;
-    return;
-  }
+        return;
+    }
 
-  venueIds.forEach((venueId) => {
-    const venue = venuesData[venueId];
-    const col = document.createElement("div");
-    col.className = "col-md-6 col-lg-4 mb-4";
+    // 2. Loop semua venue
+    venueIds.forEach((venueId) => {
+        const venue = venuesData[venueId];
+        if (!venue) return; // Lewati jika data kosong
 
-    // Animasi fade in sederhana
-    col.style.animation = "fadeIn 0.5s";
+        // Cek apakah ini venue buatan user (ID dimulai dengan "custom_")
+        const isCustomVenue = String(venueId).startsWith("custom_");
+        
+        const col = document.createElement("div");
+        col.className = "col-md-6 col-lg-4 mb-4";
+        col.style.animation = "fadeIn 0.5s";
 
-    col.innerHTML = `
-            <div class="card venue-card h-100" onclick="openBooking('${venueId}')">
-                <img src="${venue.img}" class="card-img-top" alt="${
-      venue.name
-    }">
+        // === LOGIKA TOMBOL DELETE ===
+        let deleteButtonHtml = "";
+        if (isCustomVenue) {
+            // Kita gunakan z-index: 100 agar tombol berada di paling atas layer
+            deleteButtonHtml = `
+                <button class="btn btn-danger btn-sm position-absolute" 
+                        style="top: 10px; right: 10px; z-index: 100;"
+                        onclick="deleteVenue('${venueId}', event)"
+                        title="Hapus Venue Saya">
+                    <i class="fas fa-trash-alt"></i> Hapus
+                </button>
+            `;
+        }
+
+        col.innerHTML = `
+            <div class="card venue-card h-100 position-relative" onclick="openBooking('${venueId}')">
+                ${deleteButtonHtml} 
+                <img src="${venue.img}" class="card-img-top" alt="${venue.name}" style="height: 200px; object-fit: cover;">
                 <div class="card-body">
                     <div class="venue-name">${venue.name}</div>
                     <div class="venue-loc text-muted mb-2" style="font-size:12px">
                         <i class="fas fa-map-marker-alt me-1"></i> ${venue.loc}
                     </div>
-                    <div class="badge bg-light text-dark border mb-2">${
-                      venue.type
-                    }</div>
-                    <div class="venue-price">Mulai ${formatRupiah(
-                      venue.price
-                    )} / jam</div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="badge bg-light text-dark border">${venue.type}</div>
+                        ${isCustomVenue ? '<span class="badge bg-info text-white" style="font-size:10px;">Milik Anda</span>' : ''}
+                    </div>
+                    <div class="venue-price mt-2">Mulai ${formatRupiah(venue.price)} / jam</div>
+                    
+                    <button class="btn btn-sm btn-primary w-100 mt-2" onclick="event.stopPropagation(); openBooking('${venueId}')">
+                        <i class="fas fa-calendar-plus me-1"></i> Pesan
+                    </button>
                 </div>
             </div>
         `;
-    container.appendChild(col);
-  });
+        container.appendChild(col);
+    });
 }
 
 
@@ -2875,27 +2986,38 @@ function initializeDropdowns() {
 }
 
 // === ENHANCED MOBILE MENU ===
+// === GANTI FUNGSI setupMobileMenu YANG LAMA DENGAN INI ===
+
+// === GANTI FUNGSI setupMobileMenu DI SCRIPT.JS ===
+
 function setupMobileMenu() {
-  const navbarToggler = document.querySelector(".navbar-toggler");
-  const navbarCollapse = document.querySelector(".navbar-collapse");
+    const navbarToggler = document.querySelector(".navbar-toggler");
+    const navbarCollapse = document.querySelector(".navbar-collapse");
+  
+    if (navbarToggler && navbarCollapse) {
+        // Ambil SEMUA link nav, dropdown item, dan tombol list venue
+        const allNavLinks = document.querySelectorAll(".nav-link, .dropdown-item, .btn-list-venue");
+        
+        allNavLinks.forEach((link) => {
+            link.addEventListener("click", function (e) {
+                // PENTING: Cek apakah yang diklik adalah Dropdown Toggle (Hi, User)
+                // Jika ya, JANGAN tutup menu, biarkan Bootstrap membuka dropdown-nya
+                if (this.classList.contains("dropdown-toggle")) {
+                    return; 
+                }
 
-  if (navbarToggler && navbarCollapse) {
-    navbarToggler.addEventListener("click", function () {
-      navbarCollapse.classList.toggle("show");
-    });
-
-    // Close mobile menu when clicking on a link
-    const navLinks = document.querySelectorAll(".nav-link");
-    navLinks.forEach((link) => {
-      link.addEventListener("click", function () {
-        if (window.innerWidth <= 768) {
-          navbarCollapse.classList.remove("show");
-        }
-      });
-    });
-  }
+                // Cek jika layar sedang mode mobile (lebar < 992px)
+                if (window.innerWidth < 992 && navbarCollapse.classList.contains("show")) {
+                    // Tutup menu secara manual untuk link biasa (Home, Venue, Logout, dll)
+                    setTimeout(() => {
+                        const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse) || new bootstrap.Collapse(navbarCollapse);
+                        bsCollapse.hide();
+                    }, 100); // Beri jeda sedikit agar terlihat natural
+                }
+            });
+        });
+    }
 }
-
 // === CART FEATURE LOGIC ===
 
 // 1. Menampilkan Modal Cart
@@ -3174,6 +3296,320 @@ function showProfile() {
     window.scrollTo(0, 0);
 }
 
+// === SMART NAVBAR & MOBILE MENU LOGIC ===
+
+document.addEventListener("DOMContentLoaded", function () {
+    let lastScrollTop = 0;
+    const navbar = document.querySelector('.navbar');
+    const navbarCollapse = document.getElementById('navbarNav'); // ID dari div collapse di HTML
+    const navLinks = document.querySelectorAll('.nav-link, .btn-list-venue, .navbar-brand');
+
+    // 1. LOGIKA SCROLL (NAIK/TURUN)
+    window.addEventListener('scroll', function() {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        // Logika Navbar Hilang/Muncul
+        if (scrollTop > lastScrollTop && scrollTop > 50) {
+            // Scroll ke BAWAH -> Sembunyikan Navbar
+            // TAPI jangan sembunyikan jika menu mobile sedang terbuka
+            if (!navbarCollapse.classList.contains('show')) {
+                navbar.classList.add('navbar-hidden');
+            }
+        } else {
+            // Scroll ke ATAS -> Munculkan Navbar
+            navbar.classList.remove('navbar-hidden');
+        }
+        
+        lastScrollTop = scrollTop;
+
+        // Logika Tutup Menu Mobile saat Scroll
+        // Jika user scroll layar saat menu terbuka, menu otomatis tertutup agar tidak menghalangi
+        if (navbarCollapse.classList.contains('show')) {
+            const bsCollapse = new bootstrap.Collapse(navbarCollapse, {
+                toggle: false
+            });
+            bsCollapse.hide();
+        }
+    });
+
+    // 2. LOGIKA KLIK (TUTUP MENU SAAT PINDAH HALAMAN)
+    navLinks.forEach(function (link) {
+        link.addEventListener('click', function () {
+            // Tutup menu mobile jika sedang terbuka
+            if (navbarCollapse.classList.contains('show')) {
+                const bsCollapse = new bootstrap.Collapse(navbarCollapse, {
+                    toggle: false
+                });
+                bsCollapse.hide();
+            }
+
+            // Pastikan Navbar Muncul Kembali (Reset posisi ke atas)
+            navbar.classList.remove('navbar-hidden');
+
+            // Scroll halaman ke paling atas (Reset View)
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    });
+});
+
+// === LOGIKA SMART NAVBAR & INTERAKSI ===
+
+document.addEventListener("DOMContentLoaded", function () {
+    let lastScrollTop = 0;
+    const navbar = document.querySelector('.navbar');
+    const navbarCollapse = document.getElementById('navbarNav'); 
+    
+    // Fungsi Helper: Sembunyikan Navbar
+    function hideNavbar() {
+        // Jangan sembunyikan jika menu mobile sedang terbuka (biar user ga bingung)
+        if (!navbarCollapse.classList.contains('show')) {
+            navbar.classList.add('navbar-hidden');
+        }
+    }
+
+    // Fungsi Helper: Munculkan Navbar
+    function showNavbar() {
+        navbar.classList.remove('navbar-hidden');
+    }
+
+    // 1. EVENT SCROLL (Naik = Muncul, Turun = Sembunyi)
+    window.addEventListener('scroll', function() {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        if (scrollTop > lastScrollTop && scrollTop > 50) {
+            // Scroll ke BAWAH -> Sembunyikan
+            hideNavbar();
+            closeMobileMenu(); // Tutup menu jika user iseng scroll saat menu buka
+        } else if (scrollTop < lastScrollTop) {
+            // Scroll ke ATAS -> Munculkan
+            showNavbar();
+        }
+        lastScrollTop = scrollTop;
+    }, { passive: true });
+
+
+    // 2. EVENT KLIK/SENTUH AREA KONTEN (Action apapun -> Sembunyi)
+    document.addEventListener('click', function(e) {
+        // Jika yang diklik BUKAN bagian dari navbar (misal tombol booking, gambar, text)
+        if (!navbar.contains(e.target)) {
+            hideNavbar();
+            closeMobileMenu();
+        }
+    });
+
+    // Deteksi sentuhan jari di layar (untuk HP)
+    document.addEventListener('touchstart', function(e) {
+        // Jika menyentuh area konten (bukan navbar)
+        if (!navbar.contains(e.target)) {
+            // Beri sedikit delay agar tidak bentrok jika user mau scroll ke atas
+            // Tapi karena requestnya "menyentuh apapun", kita langsung sembunyikan
+            hideNavbar(); 
+        }
+    }, { passive: true });
+
+
+    // 3. EVENT NAVIGASI (Pindah Halaman -> Reset ke Atas)
+    // Ambil semua link navigasi dan tombol logo
+    const allNavLinks = document.querySelectorAll('.nav-link, .navbar-brand, .btn-list-venue');
+    
+    allNavLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            closeMobileMenu(); // 1. Tutup menu mobile
+            showNavbar();      // 2. Pastikan navbar turun dulu (biar kelihatan transisinya)
+            
+            // 3. Scroll ke paling atas
+            window.scrollTo({ top: 0, behavior: 'smooth' }); 
+        });
+    });
+});
+
+// === TAMBAHKAN FUNGSI INI DI SCRIPT.JS (Bisa di bagian paling bawah) ===
+
+function closeMobileMenu() {
+    // Ambil elemen menu utama (yang background cokelat)
+    const navbarCollapse = document.getElementById("navbarNav");
+    
+    // Cek apakah elemen ada dan sedang terbuka (memiliki class 'show')
+    if (navbarCollapse && navbarCollapse.classList.contains("show")) {
+        // Panggil fungsi Bootstrap untuk menutupnya
+        const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse) || new bootstrap.Collapse(navbarCollapse);
+        bsCollapse.hide();
+    }
+}
+
+// Fungsi Khusus untuk Menutup Dropdown User (Profil/Logout)
+function forceCloseDropdown() {
+    // 1. Cari elemen tombol dropdown user
+    const dropdownToggle = document.getElementById("userDropdown");
+    const dropdownMenu = document.querySelector("#nav-auth-area .dropdown-menu");
+
+    // 2. Jika menu sedang terbuka (memiliki class 'show'), kita tutup
+    if (dropdownToggle && dropdownToggle.classList.contains("show")) {
+        dropdownToggle.classList.remove("show");
+        dropdownToggle.setAttribute("aria-expanded", "false");
+    }
+
+    if (dropdownMenu && dropdownMenu.classList.contains("show")) {
+        dropdownMenu.classList.remove("show");
+    }
+}
+
+// === VARIABLE GLOBAL UNTUK GAMBAR VENUE ===
+let tempVenueImageBase64 = "";
+
+// 1. Handle Upload Gambar Venue (Konversi ke Base64)
+function handleVenueImageUpload(input) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+            // Tampilkan preview
+            const imgPreview = document.getElementById('venue-preview-img');
+            imgPreview.src = e.target.result;
+            imgPreview.style.display = 'block';
+            
+            // Simpan data string base64
+            tempVenueImageBase64 = e.target.result;
+        }
+        
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+// 2. Fungsi Register Venue
+function registerVenue() {
+    // Cek Login (Opsional: Hapus jika user tamu boleh daftar)
+    const currentUser = getCurrentUser();
+    if (!currentUser) {
+        alert("Silakan login terlebih dahulu untuk mendaftarkan venue.");
+        showLoginModal();
+        return;
+    }
+
+    // Ambil nilai dari form
+    const name = document.getElementById('reg-name').value;
+    const sport = document.getElementById('reg-sport').value;
+    const address = document.getElementById('reg-address').value;
+    const city = document.getElementById('reg-city').value;
+    const price = parseInt(document.getElementById('reg-price').value) || 0;
+    const fieldCount = document.getElementById('reg-fields').value || 1;
+    
+    // Ambil Fasilitas yang dicentang
+    const facilities = [];
+    document.querySelectorAll('.reg-facility:checked').forEach((checkbox) => {
+        facilities.push(checkbox.value);
+    });
+
+    // Validasi Gambar (Pakai default jika kosong)
+    const imgUrl = tempVenueImageBase64 || "https://images.unsplash.com/photo-1522778119026-d647f0565c6a?w=500&q=80";
+
+    // Buat ID unik
+    const newId = "custom_" + Date.now();
+
+    // Buat Objek Venue Baru (Struktur harus sama dengan venuesData)
+    const newVenue = {
+        name: name,
+        loc: `${city} - ${address}`, // Format string lokasi
+        location: address, // Alamat lengkap
+        price: price,
+        img: imgUrl,
+        type: sport,
+        description: `Venue ${sport} terbaik di ${city} dengan fasilitas lengkap.`,
+        facilities: facilities.length > 0 ? facilities : ["Parkir", "Toilet"],
+        area: "Standar Internasional",
+        length: "Standar",
+        number: `Total ${fieldCount} Lapangan`
+    };
+
+    // 3. Simpan ke LocalStorage
+    // Kita ambil data venue custom yang sudah ada (jika ada)
+    const customVenues = JSON.parse(localStorage.getItem('gelora_custom_venues') || "{}");
+    
+    // Tambahkan venue baru ke objek
+    customVenues[newId] = newVenue;
+    
+    // Simpan balik ke storage
+    localStorage.setItem('gelora_custom_venues', JSON.stringify(customVenues));
+
+    // 4. Update Runtime Data (venuesData)
+    // Karena venuesData adalah const object, kita bisa menambahkan property baru padanya
+    venuesData[newId] = newVenue;
+
+    // 5. Reset Form & Redirect
+    document.getElementById('form-register-venue').reset();
+    document.getElementById('venue-preview-img').style.display = 'none';
+    tempVenueImageBase64 = "";
+    
+    alert("Venue berhasil didaftarkan! Venue Anda akan langsung muncul di halaman pencarian.");
+    
+    // Redirect ke list venue (otomatis akan merender ulang termasuk venue baru)
+    showVenueList();
+}
+
+// 3. Fungsi Load Custom Venues (PENTING)
+// Fungsi ini menggabungkan data hardcode dengan data dari localstorage saat halaman dimuat
+function loadCustomVenues() {
+    try {
+        const customVenues = JSON.parse(localStorage.getItem('gelora_custom_venues') || "{}");
+        
+        // Loop setiap custom venue dan masukkan ke venuesData utama
+        for (const [key, value] of Object.entries(customVenues)) {
+            venuesData[key] = value;
+        }
+        console.log("Custom venues loaded:", Object.keys(customVenues).length);
+    } catch (e) {
+        console.error("Gagal memuat custom venues", e);
+    }
+}
+
+// === FUNGSI HAPUS VENUE ===
+function deleteVenue(venueId, event) {
+    // PENTING: Mencegah event bubbling (agar card tidak membuka halaman booking)
+    if (event) {
+        event.stopPropagation();
+        event.preventDefault();
+    }
+
+    // Konfirmasi penghapusan
+    if (!confirm("Apakah Anda yakin ingin menghapus venue ini? Tindakan ini tidak dapat dibatalkan.")) {
+        return;
+    }
+
+    // 1. Hapus dari LocalStorage
+    try {
+        const customVenues = JSON.parse(localStorage.getItem('gelora_custom_venues') || "{}");
+        
+        if (customVenues[venueId]) {
+            delete customVenues[venueId];
+            localStorage.setItem('gelora_custom_venues', JSON.stringify(customVenues));
+        }
+    } catch (e) {
+        console.error("Gagal menghapus dari storage", e);
+    }
+
+    // 2. Hapus dari Variabel Global (Runtime)
+    if (venuesData[venueId]) {
+        delete venuesData[venueId];
+    }
+
+    // 3. Feedback ke User
+    alert("Venue berhasil dihapus.");
+    
+    // 4. Render Ulang
+    // Cek kita sedang di halaman mana
+    const venueListVisible = !document.getElementById("view-venue-list").classList.contains("d-none");
+    
+    if (venueListVisible) {
+        // Jika sedang di venue list, refresh list
+        showVenueList();
+    } else {
+        // Jika di home atau lainnya, paksa ke venue list
+        showVenueList();
+    }
+}
 
 // Handle window resize
 window.addEventListener("resize", function () {
@@ -3186,8 +3622,24 @@ window.addEventListener("resize", function () {
 });
 // === INIT ===
 document.addEventListener("DOMContentLoaded", function () {
+
+  loadCustomVenues();
   // init booking date
   document.getElementById("booking-date").valueAsDate = new Date();
   // auth UI
+ const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const dateInput = document.getElementById("search-date");
+  if (dateInput) {
+    dateInput.valueAsDate = tomorrow;
+  }
+
+  const bookingDateInput = document.getElementById("booking-date");
+  if (bookingDateInput) {
+    bookingDateInput.valueAsDate = new Date();
+  }
+
   updateAuthUI();
+  initializeDropdowns();
+  setupMobileMenu();
 });

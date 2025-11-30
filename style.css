@@ -1244,3 +1244,102 @@ img {
     overflow: visible !important;
 }
 
+/* --- PERBAIKAN UTAMA --- */
+
+/* 1. Memberikan ruang agar konten tidak tertutup Navbar Fixed */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #fff;
+    padding-top: 85px; /* Tambahkan ini: Sesuaikan dengan tinggi navbar */
+}
+
+/* 2. Pastikan Navbar Selalu di Atas (Fixed) & Z-Index Tinggi */
+.navbar {
+    padding: 15px 0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* Sedikit pertebal shadow agar batas jelas */
+    background-color: #6e3737 !important;
+    z-index: 1050; /* Pastikan di atas elemen lain */
+}
+
+/* 3. Menghilangkan Scroll pada Dropdown Profile/Navbar */
+/* Target khusus dropdown di dalam navbar agar tidak kena scroll */
+.navbar .dropdown-menu {
+    max-height: none !important; /* Hapus batasan tinggi */
+    overflow: visible !important; /* Hilangkan scrollbar */
+    border: none;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    margin-top: 10px; /* Jarak sedikit dari navbar */
+}
+
+/* Opsional: Mempercantik item dropdown profile */
+.navbar .dropdown-item {
+    padding: 10px 20px;
+    font-weight: 600;
+}
+
+/* --- PERBAIKAN TAMPILAN MOBILE --- */
+@media (max-width: 991px) {
+    /* Pada mobile, dropdown menu profile jangan terlalu lebar */
+    .navbar .dropdown-menu {
+        border-radius: 8px;
+        text-align: center;
+    }
+}
+
+/* --- FIX LAYOUT PROFIL --- */
+
+/* Memberikan jarak agar konten profil tidak nyangkut di belakang navbar */
+#view-profile {
+    padding-top: 50px !important;
+}
+
+/* Khusus Mobile: Jarak lebih besar karena navbar bisa lebih tinggi */
+@media (max-width: 991px) {
+    #view-profile {
+        padding-top: 40px !important;
+    }
+}
+
+/* === DROPDOWN STYLING === */
+.search-section .dropdown-toggle {
+    background: white;
+    border: 1px solid #ced4da;
+    color: #495057;
+    text-align: left;
+    position: relative;
+    padding-right: 40px;
+}
+
+.search-section .dropdown-toggle::after {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-top: 0.4em solid;
+    border-right: 0.4em solid transparent;
+    border-left: 0.4em solid transparent;
+}
+
+.search-section .dropdown-menu {
+    width: 100%;
+    max-height: 300px;
+    overflow-y: auto;     /* Scroll vertikal tetap aktif */
+    overflow-x: hidden;   /* [BARU] Hilangkan scroll horizontal */
+    border: 1px solid #dee2e6;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.search-section .dropdown-item {
+    font-size: 14px;
+    padding: 10px 15px;
+    border-bottom: 1px solid #f8f9fa;
+    transition: all 0.2s ease;
+    white-space: normal;  /* [BARU] Agar teks panjang turun ke bawah (wrap), bukan melebar ke samping */
+    word-wrap: break-word; /* [BARU] Memastikan kata panjang tidak merusak layout */
+}
+
+.search-section .dropdown-item:hover {
+    background-color: var(--primary-color);
+    color: white;
+    transform: translateX(5px);
+}
