@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <!-- ===== HEAD SECTION ===== -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Let's Booking</title>
     
+    <!-- External Stylesheets -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -12,43 +14,44 @@
 </head>
 <body>
 
- <!-- NAVBAR TETAP DI ATAS -->
-<nav class="navbar navbar-expand-lg bg-white fixed-top">
-    <div class="container">
-        <a class="navbar-brand" href="javascript:void(0)" onclick="goHome()">
-            <img src="logo.png" alt="Logo">
-            <span style="color: white;">Let's Booking</span>
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto align-items-center">
-                <li class="nav-item"><a class="nav-link" href="javascript:void(0)" onclick="goHome()">HOME</a></li>
-                <li class="nav-item"><a class="nav-link" href="javascript:void(0)" onclick="showVenueList()">VENUE</a></li>
-                <li class="nav-item">
-                    <a class="btn btn-sm btn-list-venue me-3" href="javascript:void(0)" onclick="showListYourVenue()">LIST YOUR VENUE</a>
-                </li>
-                <li class="nav-item position-relative">
-                    <a class="nav-link" href="javascript:void(0)" onclick="showCartModal()">
-                        <i class="fas fa-shopping-cart"></i>
-                        <span id="nav-cart-badge" class="badge rounded-pill bg-danger cart-badge">0</span>
-                    </a>
-                </li>
-                <li class="nav-item dropdown" id="nav-auth-area">
-                    <a class="nav-link" href="javascript:void(0)" id="btnShowLogin" onclick="showLoginModal()">LOGIN</a>
-                </li>
-            </ul>
+    <!-- ===== NAVIGATION SECTION ===== -->
+    <nav class="navbar navbar-expand-lg bg-white fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="javascript:void(0)" onclick="goHome()">
+                <img src="logo.png" alt="Logo">
+                <span style="color: white;">Let's Booking</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="javascript:void(0)" onclick="goHome()">HOME</a></li>
+                    <li class="nav-item"><a class="nav-link" href="javascript:void(0)" onclick="showVenueList()">VENUE</a></li>
+                    <li class="nav-item">
+                        <a class="btn btn-sm btn-list-venue me-3" href="javascript:void(0)" onclick="showListYourVenue()">LIST YOUR VENUE</a>
+                    </li>
+                    <li class="nav-item position-relative">
+                        <a class="nav-link" href="javascript:void(0)" onclick="showCartModal()">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span id="nav-cart-badge" class="badge rounded-pill bg-danger cart-badge">0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown" id="nav-auth-area">
+                        <a class="nav-link" href="javascript:void(0)" id="btnShowLogin" onclick="showLoginModal()">LOGIN</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
-    <!-- ===== VIEW HOME ===== -->
+    </nav>
+
+    <!-- ===== HOME VIEW SECTION ===== -->
     <div id="view-home">
-        <!-- SECTION SEARCH -->
+        <!-- SEARCH SECTION -->
         <section class="search-section">
             <div class="container">
                 <div class="row g-2 align-items-center">
-                    <!-- Kota Dropdown -->
+                    <!-- City Dropdown -->
                     <div class="col-12 col-md-3">
                         <div class="dropdown">
                             <button class="form-control form-control-lg text-start dropdown-toggle" type="button" id="cityDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -72,7 +75,7 @@
                         <input type="text" class="form-control form-control-lg mt-2 d-none" id="otherCityInput" placeholder="Masukkan nama kota">
                     </div>
 
-                    <!-- Olahraga Dropdown -->
+                    <!-- Sport Dropdown -->
                     <div class="col-12 col-md-2">
                         <div class="dropdown">
                             <button class="form-control form-control-lg text-start dropdown-toggle" type="button" id="sportDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -92,12 +95,12 @@
                         </div>
                     </div>
 
-                    <!-- Tanggal -->
+                    <!-- Date Input -->
                     <div class="col-12 col-md-2">
                         <input type="date" class="form-control form-control-lg" id="search-date" required>
                     </div>
 
-                    <!-- Tombol Cek Jadwal -->
+                    <!-- Check Schedule Button -->
                     <div class="col-12 col-md-3">
                         <button class="btn btn-danger btn-lg w-100" onclick="checkSchedule();">
                             <i class="fas fa-search me-2"></i>CEK JADWAL
@@ -116,43 +119,43 @@
             </div>
         </section>
 
-        <!-- Hasil Pencarian Jadwal -->
+        <!-- AVAILABLE VENUES RESULTS SECTION -->
         <section id="available-venues" class="py-5 bg-light" style="display: none;">
             <div class="container">
                 <h2 class="section-title text-center mb-5">Ditemukan <span>0 Venue</span> Tersedia</h2>
                 <div id="available-venues-container" class="row">
-                    <!-- Hasil pencarian akan ditampilkan di sini -->
+                    <!-- Search results will be displayed here -->
                 </div>
             </div>
         </section>
 
+        <!-- HERO BANNER SECTION -->
         <div class="container">
-            <!-- Hero Banner -->
             <div class="row hero-banner">
                 <div class="col-12">
                     <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel">
-                      <div class="carousel-inner">
-    <div class="carousel-item active">
-        <img src="https://gelora-public-storage.s3-ap-southeast-1.amazonaws.com/upload/public-20221227111233.jpg" class="d-block w-100" alt="Banner 1">
-        <div class="carousel-caption">
-            <h2 class="fw-bold">ASATU ARENA CIKINI</h2>
-            <p>Lapangan Mini Soccer Outdoor dengan rumput sintetis standar FIFA.</p>
-            <a href="javascript:void(0)" class="btn btn-warning fw-bold" onclick="openBooking('asatu')">
-                BOOKING NOW
-            </a>
-        </div>
-    </div>
-    <div class="carousel-item">
-        <img src="https://asset.ayo.co.id/image/venue/165589181882791.image_cropper_97735C2B-26B5-421C-9E4A-7128A7112E3A-37880-000006F883353C2A_large.jpg" class="d-block w-100" alt="Banner 2">
-        <div class="carousel-caption">
-            <h2 class="fw-bold">TIFOSI SPORT CENTER</h2>
-            <p>Lapangan Futsal Indoor dengan lantai vinyl standar Internasional.</p>
-            <a href="javascript:void(0)" class="btn btn-warning fw-bold" onclick="openBooking('sportiva')">
-                BOOKING NOW
-            </a>
-        </div>
-    </div>
-</div>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="https://gelora-public-storage.s3-ap-southeast-1.amazonaws.com/upload/public-20221227111233.jpg" class="d-block w-100" alt="Banner 1">
+                                <div class="carousel-caption">
+                                    <h2 class="fw-bold">ASATU ARENA CIKINI</h2>
+                                    <p>Lapangan Mini Soccer Outdoor dengan rumput sintetis standar FIFA.</p>
+                                    <a href="javascript:void(0)" class="btn btn-warning fw-bold" onclick="openBooking('asatu')">
+                                        BOOKING NOW
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img src="https://asset.ayo.co.id/image/venue/165589181882791.image_cropper_97735C2B-26B5-421C-9E4A-7128A7112E3A-37880-000006F883353C2A_large.jpg" class="d-block w-100" alt="Banner 2">
+                                <div class="carousel-caption">
+                                    <h2 class="fw-bold">TIFOSI SPORT CENTER</h2>
+                                    <p>Lapangan Futsal Indoor dengan lantai vinyl standar Internasional.</p>
+                                    <a href="javascript:void(0)" class="btn btn-warning fw-bold" onclick="openBooking('sportiva')">
+                                        BOOKING NOW
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
                             <span class="carousel-control-prev-icon"></span>
                         </button>
@@ -163,7 +166,7 @@
                 </div>
             </div>
 
-            <!-- Promo Venue -->
+            <!-- PROMO VENUE SECTION -->
             <div class="row">
                 <div class="col-12 d-flex justify-content-between align-items-end">
                     <h3 class="section-title">Promo <span>Venue</span></h3>
@@ -204,7 +207,7 @@
                 </div>
             </div>
 
-            <!-- Rekomendasi Venue -->
+            <!-- RECOMMENDED VENUE SECTION -->
             <div class="row">
                 <div class="col-12 d-flex justify-content-between align-items-end">
                     <h3 class="section-title">Rekomendasi <span>Venue</span></h3>
@@ -254,12 +257,12 @@
             </div>
         </div>
 
-        <!-- B2B Section -->
+        <!-- B2B BUSINESS SECTION -->
         <section class="b2b-section">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-md-6 mb-4">
-                        <h5 class="text-muted text-uppercase mb-3" style="letter-spacing: 1px;">Khusus Pemilik Bisnis</h5>
+                        <h5 class="text-white text-uppercase mb-3" style="letter-spacing: 1px;">Khusus Pemilik Bisnis</h5>
                         <h1 class="fw-bold mb-4">Solusi Kelola Fasilitas Olahraga Anda</h1>
                         <p class="lead mb-4" style="font-size: 16px; opacity: 0.8;">
                             Tingkatkan potensi pendapatan lapangan & nikmati kemudahan dashboard manajemen yang terintegrasi. Pantau booking, keuangan, dan jadwal dalam satu aplikasi.
@@ -275,7 +278,7 @@
             </div>
         </section>
 
-        <!-- FOOTER -->
+        <!-- FOOTER SECTION -->
         <footer>
             <div class="container">
                 <div class="row">
@@ -312,9 +315,7 @@
                     <div class="col-lg-2 col-md-6 mb-4">
                         <span class="footer-title">FIND AND FOLLOW US</span>
                         <div class="d-flex gap-3 fs-5">
-                            <a href="#" style="color:#555"><i class="fab fa-instagram"></i></a>
-                            <a href="#" style="color:#555"><i class="fab fa-youtube"></i></a>
-                            <a href="#" style="color:#555"><i class="fab fa-linkedin"></i></a>
+                            <a href="https://www.instagram.com/maull_lik?igsh=MWdpa2dmZXR3dzZ2Mg==" style="color:#555"><i class="fab fa-instagram"></i></a>
                         </div>
                     </div>
                 </div>
@@ -330,9 +331,9 @@
             </div>
         </footer>
     </div>
-    <!-- ===== END VIEW HOME ===== -->
+    <!-- ===== END HOME VIEW SECTION ===== -->
 
-    <!-- ===== VIEW BOOKING ===== -->
+    <!-- ===== BOOKING VIEW SECTION ===== -->
     <div id="view-booking" class="d-none">
         <div class="venue-header-container">
             <img id="detail-img" src="" class="venue-header-img" alt="Header">
@@ -379,7 +380,7 @@
 
                 <div class="schedule-wrapper">
                     <div class="schedule-scroll" id="schedule-grid">
-                        <!-- Schedule content akan diisi oleh JavaScript -->
+                        <!-- Schedule content will be filled by JavaScript -->
                     </div>
                 </div>
             </div>
@@ -406,7 +407,7 @@
                         
                         <h5 class="fw-bold mt-4 mb-3">Fasilitas</h5>
                         <ul id="venue-facilities" class="list-unstyled">
-                            <!-- Facilities akan diisi oleh JavaScript -->
+                            <!-- Facilities will be filled by JavaScript -->
                         </ul>
                         
                         <h5 class="fw-bold mt-4 mb-3">Informasi Lapangan</h5>
@@ -486,9 +487,9 @@
             </div>
         </div>
     </div>
-    <!-- ===== END VIEW BOOKING ===== -->
+    <!-- ===== END BOOKING VIEW SECTION ===== -->
 
-    <!-- ===== VIEW VENUE LIST ===== -->
+    <!-- ===== VENUE LIST VIEW SECTION ===== -->
     <div id="view-venue-list" class="d-none">
         <div class="container py-5">
             <div class="mb-3">
@@ -555,15 +556,15 @@
                 
                 <div class="col-md-9">
                     <div class="row" id="venue-list-container">
-                        <!-- Venue list akan diisi oleh JavaScript -->
+                        <!-- Venue list will be filled by JavaScript -->
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- ===== END VIEW VENUE LIST ===== -->
+    <!-- ===== END VENUE LIST VIEW SECTION ===== -->
 
-    <!-- ===== VIEW ACTIVITY ===== -->
+    <!-- ===== ACTIVITY VIEW SECTION ===== -->
     <div id="view-activity" class="d-none">
         <div class="container py-5">
             <div class="mb-3">
@@ -609,9 +610,9 @@
             </div>
         </div>
     </div>
-    <!-- ===== END VIEW ACTIVITY ===== -->
+    <!-- ===== END ACTIVITY VIEW SECTION ===== -->
 
-    <!-- ===== VIEW LIST VENUE ===== -->
+    <!-- ===== LIST VENUE VIEW SECTION ===== -->
    <div id="view-list-venue" class="d-none">
     <div class="container py-5">
         <div class="mb-3">
@@ -752,9 +753,9 @@
         </div>
     </div>
 </div>
-    <!-- ===== END VIEW LIST VENUE ===== -->
+    <!-- ===== END LIST VENUE VIEW SECTION ===== -->
 
-    <!-- ===== VIEW PROFILE ===== -->
+    <!-- ===== PROFILE VIEW SECTION ===== -->
    <div id="view-profile" class="d-none">
     <div class="container py-5">
         <div class="row">
@@ -912,9 +913,9 @@
             </div>
             </div> </div>
 </div>
-    <!-- ===== END VIEW PROFILE ===== -->
+    <!-- ===== END PROFILE VIEW SECTION ===== -->
 
-    <!-- ===== VIEW MY BOOKING ===== -->
+    <!-- ===== MY BOOKING VIEW SECTION ===== -->
     <div id="view-my-booking" class="d-none">
         <div class="container py-5">
             <div class="mb-4">
@@ -942,7 +943,7 @@
 
                 <div class="col-md-9">
                     <div id="my-booking-list">
-                        <!-- Booking list akan diisi oleh JavaScript -->
+                        <!-- Booking list will be filled by JavaScript -->
                     </div>
                     
                     <div id="empty-booking-state" class="text-center py-5 d-none">
@@ -955,9 +956,11 @@
             </div>
         </div>
     </div>
-    <!-- ===== END VIEW MY BOOKING ===== -->
+    <!-- ===== END MY BOOKING VIEW SECTION ===== -->
 
-    <!-- ===== MODALS ===== -->
+    <!-- ===== MODAL SECTIONS ===== -->
+    
+    <!-- E-TICKET MODAL -->
     <div class="modal fade" id="eTicketModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -985,7 +988,7 @@
                     <div class="text-start mb-3 bg-light p-3 rounded">
                         <small class="text-muted d-block mb-2">Jadwal Main:</small>
                         <div id="ticket-slots">
-                            <!-- Ticket slots akan diisi oleh JavaScript -->
+                            <!-- Ticket slots will be filled by JavaScript -->
                         </div>
                     </div>
 
@@ -1013,7 +1016,7 @@
                 </div>
                 <div class="modal-body p-0">
                     <div id="cart-items-container" style="max-height: 400px; overflow-y: auto;">
-                        <!-- Cart items akan diisi oleh JavaScript -->
+                        <!-- Cart items will be filled by JavaScript -->
                     </div>
                     
                     <div id="cart-empty-state" class="text-center py-5 d-none">
@@ -1035,6 +1038,7 @@
         </div>
     </div>
 
+    <!-- PAYMENT MODAL -->
     <div class="modal fade" id="paymentModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -1061,6 +1065,7 @@
         </div>
     </div>
 
+    <!-- QR PAYMENT MODAL -->
     <div class="modal fade" id="qrPaymentModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -1087,6 +1092,7 @@
         </div>
     </div>
 
+    <!-- LOGIN MODAL -->
     <div class="modal fade" id="loginModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -1120,6 +1126,7 @@
         </div>
     </div>
 
+    <!-- REGISTER MODAL -->
     <div class="modal fade" id="registerModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -1161,12 +1168,12 @@
         </div>
     </div>
 
-    <!-- WhatsApp Float -->
-    <a href="https://wa.me/6287782817445" class="whatsapp-float" target="_blank">
+    <!-- ===== WHATSAPP FLOAT BUTTON ===== -->
+    <a href="https://wa.me/6287815392780" class="whatsapp-float" target="_blank">
         <i class="fab fa-whatsapp"></i>
     </a>
 
-    <!-- Scripts -->
+    <!-- ===== SCRIPTS SECTION ===== -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="script.js"></script>
